@@ -15,3 +15,7 @@
 #include "../exeption/empty_exception.hpp"
 
 using namespace std;
+
+const char DELIMITER =',';
+const char MENU_DELIMITER=';';
+const char PRICE_DELIMITER=':';
