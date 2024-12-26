@@ -5,8 +5,9 @@ using namespace std;
 
 class Restaurant{
 public:
-    Restaurant();
-    
+    Restaurant(int num_of_tables_ ,int start_time_ ,int close_time_,
+            string district_ ,map<string,int> menu_ ,string name_);
+
 
 
 private:
