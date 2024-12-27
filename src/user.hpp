@@ -3,7 +3,7 @@ using namespace std;
 
 class User{
 public:
-    User();
+    User(string name ,string pass);
     
 
 private:
