@@ -22,3 +22,12 @@ map<string ,int> Utility::menuHandle(const string& input ,char menu_delimiter ,c
     }
     return result;
 }
+
+vector<string> Utility::neighbourHandle(const string &input , char neighbout_delimiter){
+    vector<string> result;
+    auto items=split(input,neighbout_delimiter);
+    for(int i=0 ; i< items.size() ;i++){
+        result[i]=items[i];
+    }
+    return result;
+}

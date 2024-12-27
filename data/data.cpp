@@ -21,3 +21,19 @@ vector<Restaurant*> CsvData::loadRestaurants(const string &restaurant_path){
     }
     return restaurants;
 }
+
+vector<Distirict*> CsvData::loadDistricts(const string & distirict_path){
+    vector<Distirict*> districts;
+        fstream file(distirict_path);
+
+        string input;
+        getline(file,input);
+
+        while(getline(file,input)){
+            vector<string> token = Utility::split(input , DELIMITER);
+            string name =token[0];
+            vector<string> neighbours = Utility::neighbourHandle(token[1],NEIGHBOUR_DELIMITER);
+            districts.push_back(new Distirict(name,neighbours));
+        }
+        return districts;
+}

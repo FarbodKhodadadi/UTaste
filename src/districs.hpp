@@ -6,7 +6,7 @@ using namespace std;
 
 class Distirict{
 public:
-    Distirict();
+    Distirict(string name_ ,vector<string> neighbours);
     
 
 private:

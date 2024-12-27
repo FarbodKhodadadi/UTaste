@@ -19,3 +19,4 @@ using namespace std;
 const char DELIMITER =',';
 const char MENU_DELIMITER=';';
 const char PRICE_DELIMITER=':';
+const char NEIGHBOUR_DELIMITER=';';
