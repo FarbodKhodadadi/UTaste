@@ -1,9 +1,9 @@
 #include "command.hpp"
 
 CommandHandle::CommandHandle(vector<Restaurant*>& restaurants_,vector<Distirict*>& distiricts_):
-                            restaurants(restaurants_),distiricts(distiricts_){};
+                            restaurants(restaurants_),distiricts(distiricts_){}
 
-void CommandHandle::commandHandle(const string& input){
+void CommandHandle::commandProsses(const string& input){
     auto tokens = Utility::split(input,' ');
     
     string command =tokens[0];
@@ -16,5 +16,18 @@ void CommandHandle::commandHandle(const string& input){
     else if(command =POST)
         postCommand(tokens);
     else
-        throw 
+        
 }
+
+void CommandHandle::deleteCommand(const vector<string> &command_line){
+
+}
+
+void CommandHandle::getCommand(const vector<string> &command_line){
+
+}
+
+void CommandHandle::postCommand(const vector<string> &command_line){
+
+}
+

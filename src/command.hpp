@@ -3,7 +3,7 @@
 class CommandHandle{
 public:
     CommandHandle(vector<Restaurant*>& restaurants,vector<Distirict*>& distiricts);
-    void commandHandle(const string& input);
+    void commandProsses(const string& input);
 
 private:
     vector<Restaurant*>& restaurants;

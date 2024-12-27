@@ -1,0 +1,5 @@
+#include "exception.hpp"
+#include "notfound_exception.hpp"
+#include "permission_exception.hpp"
+#include "empty_exception.hpp"
+#include "badrequest_exception.hpp"
