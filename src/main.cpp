@@ -1,4 +1,7 @@
 #include "global.hpp"
+#include "restaurant.hpp"
+#include "districs.hpp"
+#include "command.hpp"
 
 int main(int argc ,char* argv[]){
 
@@ -7,7 +10,7 @@ int main(int argc ,char* argv[]){
 
     string input;
     while(getline(cin,input)){
-
+    
     }
 
 
