@@ -4,9 +4,9 @@
 using namespace std;
 
 
-class Distirict{
+class District{
 public:
-    Distirict(string name_ ,vector<string> neighbours);
+    District(string name_ ,vector<string> neighbours);
     
 
 private:

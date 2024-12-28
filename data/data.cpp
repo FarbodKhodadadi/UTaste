@@ -22,9 +22,9 @@ vector<Restaurant*> CsvData::loadRestaurants(const string &restaurant_path){
     return restaurants;
 }
 
-vector<Distirict*> CsvData::loadDistricts(const string & distirict_path){
+vector<District*> CsvData::loadDistricts(const string & district_path){
     vector<Distirict*> districts;
-        fstream file(distirict_path);
+        fstream file(district_path);
 
         string input;
         getline(file,input);
@@ -33,7 +33,7 @@ vector<Distirict*> CsvData::loadDistricts(const string & distirict_path){
             vector<string> token = Utility::split(input , DELIMITER);
             string name =token[0];
             vector<string> neighbours = Utility::neighbourHandle(token[1],NEIGHBOUR_DELIMITER);
-            districts.push_back(new Distirict(name,neighbours));
+            districts.push_back(new District(name,neighbours));
         }
         return districts;
 }
