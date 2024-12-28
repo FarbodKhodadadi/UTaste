@@ -104,21 +104,6 @@ void CommandHandle::OK(){
     cout << OK << endl;
 }
 
-bool CommandHandle::checkUsername(const string username){
-    for(int i =0 ;i <users.size();i++){
-        if(users[i]->getUsername() == username){
-            return true;
-        }
-    }
-    return false;
-}
-string CommandHandle::checkPassword(const string username){
-    for(int i =0 ;i <users.size();i++){
-        if(users[i]->getUsername() == username){
-            return users[i]->getPassword();
-        }
-    }
-}
 User* CommandHandle::findUser(const string username){
     for(int i =0 ;i <users.size();i++){
         if(users[i]->getUsername() == username){

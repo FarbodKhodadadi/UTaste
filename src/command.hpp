@@ -22,8 +22,6 @@ private:
     void signup(const vector<string>& command_line);
     void login(const vector<string>& command_line);
     void logout(const vector<string>& command_line);
-    bool checkUsername(const string username);
     User* findUser(const string username);
-    string checkPassword(const string username);
     void OK();
 };
