@@ -21,6 +21,7 @@ const string POST="POST";
 
 const string BAD_REQ="Bad Request";
 const string NOT_FOUND="Not Found";
+const string PERMISSION_DENIED="Permission Denied";
 
 const string SIGNUP="signup";
 const string LOGIN="login";
