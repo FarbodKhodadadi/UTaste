@@ -43,7 +43,8 @@ void CommandHandle::postCommand(const vector<string> &command_line){
 void CommandHandle::putCommand(const vector<string> &command_line){
 
 }
-User* CommandHandle::signup(const vector<string>& command_line){
+
+void CommandHandle::signup(const vector<string>& command_line){
 
     if(command_line.size() < 7)
         throw BadReqException(BAD_REQ);
@@ -53,16 +54,26 @@ User* CommandHandle::signup(const vector<string>& command_line){
     
     string username = Utility::removeQuotation(args.find("username")->second);
     string password = Utility::removeQuotation(args.find("password")->second);
-
+    checkLogin(username);
     OK();
-    return new User(username,password,true);
+    users.push_back(new User(username,password,true));
 }
+
 void CommandHandle::login(const vector<string>& command_line){
 
 }
 void CommandHandle::logout(const vector<string>& command_line){
-
+    if(command_line.size() < 3)
+            throw BadReqException(BAD_REQ);
+    
 }
 void CommandHandle::OK(){
     cout << OK << endl;
+}
+bool CommandHandle::checkLogin(const string username){
+    for(int i =0 ;i <users.size();i++){
+        if(users[i]->getUsername() == username){
+            throw BadReqException(BAD_REQ);
+        }
+    }
 }
