@@ -1,7 +1,7 @@
 #include "command.hpp"
 
-CommandHandle::CommandHandle(vector<Restaurant*>& restaurants_,vector<District*>& districts_):
-                            restaurants(restaurants_),districts(districts_){}
+CommandHandle::CommandHandle(vector<Restaurant*>& restaurants_,vector<District*>& districts_,vector<User*>& users_):
+                            restaurants(restaurants_),districts(districts_),users(users_){}
 
 void CommandHandle::commandProcess(const string& input){
     auto tokens = Utility::split(input,' ');
@@ -43,14 +43,26 @@ void CommandHandle::postCommand(const vector<string> &command_line){
 void CommandHandle::putCommand(const vector<string> &command_line){
 
 }
-void CommandHandle::signup(const vector<string>& command_line){
+User* CommandHandle::signup(const vector<string>& command_line){
 
     if(command_line.size() < 7)
         throw BadReqException(BAD_REQ);
     map<string,string> args=Utility::commandArgs(command_line);
-
+    if(args.find("username") == args.end() || args.find("password")==args.end())
+        throw BadReqException(BAD_REQ);
     
+    string username = Utility::removeQuotation(args.find("username")->second);
+    string password = Utility::removeQuotation(args.find("password")->second);
+
+    OK();
+    return new User(username,password,true);
+}
+void CommandHandle::login(const vector<string>& command_line){
 
 }
-void CommandHandle::login(const vector<string>& command_line){}
-void CommandHandle::logout(const vector<string>& command_line){}
+void CommandHandle::logout(const vector<string>& command_line){
+
+}
+void CommandHandle::OK(){
+    cout << OK << endl;
+}
