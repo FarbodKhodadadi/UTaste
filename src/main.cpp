@@ -35,6 +35,6 @@ int main(int argc ,char* argv[]){
         for (auto d : districts) delete d;
         for (auto u : users) delete u;
     }catch(...){
-        cerr << "UNKNOWN!" << endl;
+        cerr << "UNKNOWN!"<< endl;
     }
 }
