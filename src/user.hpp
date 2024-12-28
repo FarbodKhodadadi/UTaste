@@ -4,7 +4,6 @@ using namespace std;
 class User{
 public:
     User(string name ,string pass);
-    
 
 private:
 
