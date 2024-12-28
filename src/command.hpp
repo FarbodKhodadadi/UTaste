@@ -27,5 +27,6 @@ private:
     void getRestaurant(const vector<string>& command_line);
     void getRestaurantDetails(const vector<string>& command_line);
     void getReserves(const vector<string>& command_line);
+    District* findDistrict(const string name);
     void postCommand(const vector<string>& command_line);
 };

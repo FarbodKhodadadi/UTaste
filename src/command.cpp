@@ -125,6 +125,21 @@ void CommandHandle::getDistrict(const vector<string> &command_line){
     map<string,string> args=Utility::commandArgs(command_line);
     if(args.find(DISTRICT) != args.end()){
         string district = Utility::removeQuotation(args.find(DISTRICT)->second);
+        auto dis_ptr =findDistrict(district);
+        if(dis_ptr==nullptr)
+            throw NotFoundException(NOT_FOUND);
+        dis_ptr->printDistrict();
+        return;
+    }
+    else{
+        if(districts.empty())
+            throw EmptyException(EMPTY);
+        sort(districts.begin(), districts.end(), [](District* a, District* b) {
+            return a->getName() < b->getName();
+        });
+        for(auto& district : districts) {
+            district->printDistrict();
+        }
     }
 }
 
@@ -138,6 +153,13 @@ void CommandHandle::getRestaurantDetails(const vector<string> &command_line){
 
 void CommandHandle::getReserves(const vector<string> &command_line){
     
+}
+
+District* CommandHandle::findDistrict(const string name){
+    for(int i=0 ; i<districts.size() ;i++){
+        if(districts[i]->getName()==name)
+            return districts[i];
+    }
 }
 
 void CommandHandle::deleteCommand(const vector<string> &command_line){
