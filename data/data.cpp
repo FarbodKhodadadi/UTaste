@@ -1,5 +1,5 @@
 #include "data.hpp"
-#include "../general/utility.hpp"
+
 
 vector<Restaurant*> CsvData::loadRestaurants(const string &restaurant_path){
     
@@ -23,7 +23,7 @@ vector<Restaurant*> CsvData::loadRestaurants(const string &restaurant_path){
 }
 
 vector<District*> CsvData::loadDistricts(const string & district_path){
-    vector<Distirict*> districts;
+    vector<District*> districts;
         fstream file(district_path);
 
         string input;
