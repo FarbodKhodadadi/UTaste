@@ -19,17 +19,6 @@ void CommandHandle::commandProcess(const string& input){
         throw BadReqException(BAD_REQ);
 }
 
-void CommandHandle::deleteCommand(const vector<string> &command_line){
-
-}
-
-void CommandHandle::getCommand(const vector<string> &command_line){
-
-}
-void CommandHandle::putCommand(const vector<string> &command_line){
-
-}
-
 void CommandHandle::postCommand(const vector<string> &command_line){
     string action=command_line[1];
     if(action==SIGNUP)
@@ -72,10 +61,10 @@ void CommandHandle::login(const vector<string>& command_line){
         throw PermisionException(PERMISSION_DENIED);
 
     map<string,string> args=Utility::commandArgs(command_line);
-    if(args.find("username") == args.end() || args.find("password")==args.end())
+    if(args.find(USERNAME) == args.end() || args.find(PASSWORD)==args.end())
         throw BadReqException(BAD_REQ);
-    string username = Utility::removeQuotation(args.find("username")->second);
-    string password = Utility::removeQuotation(args.find("password")->second);
+    string username = Utility::removeQuotation(args.find(USERNAME)->second);
+    string password = Utility::removeQuotation(args.find(PASSWORD)->second);
 
     auto user = findUser(username);
     if(user==nullptr)
@@ -111,4 +100,50 @@ User* CommandHandle::findUser(const string username){
         }
     }
     return nullptr;
+}
+
+void CommandHandle::getCommand(const vector<string> &command_line){
+    string action=command_line[1];
+    if(action==DISTRICT_COMM)
+        getDistrict(command_line);
+    else if(action==RESTAURANT)
+        getRestaurant(command_line);
+    else if(action==RESTAURANTS_DETAILS)
+        getRestaurantDetails(command_line);
+    else if(action==RESERVES)
+        getReserves(command_line);
+    else
+        throw NotFoundException(NOT_FOUND);
+}
+
+void CommandHandle::getDistrict(const vector<string> &command_line){
+    if(command_line.size() < 3)
+            throw BadReqException(BAD_REQ);
+    if(current_user!= nullptr)
+        throw PermisionException(PERMISSION_DENIED);
+
+    map<string,string> args=Utility::commandArgs(command_line);
+    if(args.find(DISTRICT) != args.end()){
+        string district = Utility::removeQuotation(args.find(DISTRICT)->second);
+    }
+}
+
+void CommandHandle::getRestaurant(const vector<string> &command_line){
+    
+}
+
+void CommandHandle::getRestaurantDetails(const vector<string> &command_line){
+    
+}
+
+void CommandHandle::getReserves(const vector<string> &command_line){
+    
+}
+
+void CommandHandle::deleteCommand(const vector<string> &command_line){
+
+}
+
+void CommandHandle::putCommand(const vector<string> &command_line){
+
 }

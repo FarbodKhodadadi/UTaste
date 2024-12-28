@@ -25,7 +25,12 @@ const string PERMISSION_DENIED="Permission Denied";
 
 const string SIGNUP="signup";
 const string LOGIN="login";
-const string LOGOUT="logout";
+const string LOGOUT="logout";   
+const string DISTRICT_COMM="districts";
+const string RESTAURANT="restaurants";
+const string RESTAURANTS_DETAILS="restaurants_detail";
+const string RESERVES="reserves";
+
 
 const string DISTRICT="district";
 const string RESTAURANT_NAME="restaurant_name";
