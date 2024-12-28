@@ -1,5 +1,3 @@
 #include "user.hpp"
 
-User::User(string name,string pass):username(name),password(pass){
-    loged_in=false;
-}
+User::User(string name,string pass,bool loged_in_):username(name),password(pass),loged_in(loged_in_){}

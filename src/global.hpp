@@ -13,6 +13,7 @@ const char MENU_DELIMITER=';';
 const char PRICE_DELIMITER=':';
 const char NEIGHBOUR_DELIMITER=';';
 
+const string OK="OK";
 const string GET="GET";
 const string PUT="PUT";
 const string DELETE="DELETE";
