@@ -1,4 +1,4 @@
-#include "districs.hpp"
+#include "districts.hpp"
 #include "global.hpp"
 
 District ::District(string name_, vector<string> neighbours_): name(name_) , neighbours(neighbours_) {}

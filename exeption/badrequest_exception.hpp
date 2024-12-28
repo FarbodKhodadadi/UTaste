@@ -1,3 +1,6 @@
+#ifndef BAD_REQ_EXCEPTION_H
+#define BAD_REQ_EXCEPTION_H
+
 #include "exception.hpp"
 
 class BadReqException : public Exception{
@@ -7,3 +10,5 @@ public:
     static std::string getMessageBadRequest(){return "Bad Request";}
 
 };
+
+#endif

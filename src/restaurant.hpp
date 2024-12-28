@@ -1,3 +1,6 @@
+#ifndef RESTAURANT_H
+#define RESTAURANT_H
+
 #include <vector>
 #include <string>
 #include <map>
@@ -21,3 +24,5 @@ string distirct;
 vector< vector<int> > reservations;
 
 };
+
+#endif

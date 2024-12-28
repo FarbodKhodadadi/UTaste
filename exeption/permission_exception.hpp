@@ -1,3 +1,5 @@
+#ifndef PERMISSION_EXCEPTION_H
+#define PERMISSION_EXCEPTION_H
 #include "exception.hpp"
 
 class PermisionException : public Exception{
@@ -7,3 +9,5 @@ public:
     static std::string getMessagePermission(){return "Permission Denied";}
 
 };
+
+#endif

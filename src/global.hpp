@@ -1,3 +1,6 @@
+#ifndef GLOBAL_H
+#define GLOBAL_H
+
 #include <iostream>
 #include <map>
 #include <vector>
@@ -44,3 +47,5 @@ const string FOODS="foods";
 const string FOOD_NAME="food_name";
 const string START_TIME="start_time";
 const string END_TIME="end_time";
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef EMPTY_EXCEPTION_H
+#define EMPTY_EXCEPTION_H
+
 #include "exception.hpp"
 
 class EmptyException : public Exception{
@@ -7,3 +10,5 @@ public:
     static std::string getMessageEmpty(){return "Empty";}
 
 };
+
+#endif

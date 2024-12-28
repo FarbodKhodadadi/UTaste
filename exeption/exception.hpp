@@ -1,3 +1,6 @@
+#ifndef EXCEPTION_H
+#define EXCEPTION_H
+
 #include <string>
 
 class Exception {
@@ -9,3 +12,5 @@ public:
 protected:
     std::string exception_message;
 };
+
+#endif

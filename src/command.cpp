@@ -160,6 +160,7 @@ District* CommandHandle::findDistrict(const string name){
         if(districts[i]->getName()==name)
             return districts[i];
     }
+    return nullptr;
 }
 
 void CommandHandle::deleteCommand(const vector<string> &command_line){

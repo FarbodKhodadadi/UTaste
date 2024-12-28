@@ -1,3 +1,6 @@
+#ifndef DISTRICT_H
+#define DISTRICT_H
+
 #include "global.hpp"
 
 class District{
@@ -13,3 +16,5 @@ vector<string> neighbours;
 
 
 };
+
+#endif

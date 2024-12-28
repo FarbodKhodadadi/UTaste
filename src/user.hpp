@@ -1,3 +1,5 @@
+#ifndef USER_H
+#define USER_H
 #include <string>
 using namespace std;
 
@@ -14,3 +16,5 @@ string username;
 string password;
 
 };
+
+#endif

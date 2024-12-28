@@ -1,3 +1,4 @@
+
 #include "restaurant.hpp"
 
 Restaurant::Restaurant(string name_,string district_ ,map<string,int> menu_ ,int start_time_ ,int close_time_,int num_of_tables_ ):
