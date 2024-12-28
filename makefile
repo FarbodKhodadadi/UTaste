@@ -23,14 +23,15 @@ OBJ_FILES = $(SRC_FILES:.cpp=.o) $(DATA_FILES:.cpp=.o) $(GENERAL_FILES:.cpp=.o) 
 # Rule to build the target
 $(TARGET): $(OBJ_FILES)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ_FILES)
-
+	rm -f $(OBJ_FILES)
 # Rule to build object files
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
+	
 # Clean rule
 clean:
-	rm -f $(OBJ_FILES) $(TARGET)
+	rm -f $(TARGET)
+	
 
 # Phony targets
 .PHONY: clean

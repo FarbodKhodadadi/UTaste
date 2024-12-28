@@ -67,9 +67,10 @@ void CommandHandle::login(const vector<string>& command_line){
     string password = Utility::removeQuotation(args.find(PASSWORD)->second);
 
     auto user = findUser(username);
-    if(user==nullptr)
+    if(user==nullptr){
+        cout <<"hi"<<endl;
         throw NotFoundException(NOT_FOUND);
-    
+    }
     if(user->getPassword() != password)
         throw PermisionException(PERMISSION_DENIED);
 

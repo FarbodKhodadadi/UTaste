@@ -8,9 +8,9 @@ int main(int argc ,char* argv[]){
     vector<Restaurant*> restaurants;
     vector<District*> districts;
     try{
-        restaurants= CsvData::loadRestaurants(restaurants_path);
-        districts= CsvData::loadDistricts(districts_path);
-        vector<User*> users={};
+        //restaurants= CsvData::loadRestaurants(restaurants_path);
+        //districts= CsvData::loadDistricts(districts_path);
+        vector<User*> users;
         CommandHandle cmd(restaurants,districts,users);
         string input;
 
