@@ -31,3 +31,26 @@ vector<string> Utility::neighbourHandle(const string &input , char neighbout_del
     }
     return result;
 }
+map<string , string> Utility::commandArgs(const vector<string>& command){
+    map<string,string> result;
+
+    for(int i=0 ;i <command.size() ;i++){
+        if(command[i]==USERNAME || command[i]==PASSWORD || command[i]==RESTAURANT_NAME 
+        || command[i]==FOODS || command[i]==FOOD_NAME || command[i]==START_TIME
+        || command[i]==END_TIME  || command[i]==RESERVE_ID || command[i]==TABLE_ID){
+            if(i+1 >=command.size()){
+                throw BadReqException(BAD_REQ);
+            }
+            result[command[i]]=command[i];
+        }
+
+    }
+    return result;
+}
+
+string Utility::removeQuotation(const string& input){
+    if (input.size() >= 2 && input.front() == '"' && input.back() == '"') {
+        return input.substr(1, input.size() - 2);
+    }
+    return input;
+}
