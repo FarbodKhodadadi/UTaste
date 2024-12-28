@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <fstream> 
+#include <algorithm>
 
 #include "../exeption/generalException.hpp"
 
@@ -22,6 +23,7 @@ const string POST="POST";
 const string BAD_REQ="Bad Request";
 const string NOT_FOUND="Not Found";
 const string PERMISSION_DENIED="Permission Denied";
+const string EMPTY="Empty";
 
 const string SIGNUP="signup";
 const string LOGIN="login";

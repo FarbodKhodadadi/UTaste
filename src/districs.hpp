@@ -1,13 +1,10 @@
-#include <string>
-#include <vector>
-
-using namespace std;
-
+#include "global.hpp"
 
 class District{
 public:
     District(string name_ ,vector<string> neighbours);
-    
+    void printDistrict();
+    string getName();
 
 private:
 
