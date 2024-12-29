@@ -1,37 +1,60 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++11 -I./data -I./exeption -I./general -I./src
+CXXFLAGS = -std=c++11 -I./data -I./exeption -I./general -I./src -MMD -MP
 
 # Directories
 SRC_DIR = src
 DATA_DIR = data
 EXCEPTION_DIR = exeption
 GENERAL_DIR = general
+BUILD_DIR = build
 
 # Output
 TARGET = main
 
 # Source files
-SRC_FILES = $(SRC_DIR)/main.cpp $(SRC_DIR)/command.cpp $(SRC_DIR)/districts.cpp $(SRC_DIR)/restaurant.cpp $(SRC_DIR)/user.cpp
-DATA_FILES = $(DATA_DIR)/data.cpp
-GENERAL_FILES = $(GENERAL_DIR)/utility.cpp
-EXCEPTION_FILES = $(EXCEPTION_DIR)/exception.cpp
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(DATA_DIR)/*.cpp) \
+            $(wildcard $(EXCEPTION_DIR)/*.cpp) $(wildcard $(GENERAL_DIR)/*.cpp)
 
-# Object files
-OBJ_FILES = $(SRC_FILES:.cpp=.o) $(DATA_FILES:.cpp=.o) $(GENERAL_FILES:.cpp=.o) $(EXCEPTION_FILES:.cpp=.o)
+# Object files and dependency files
+OBJ_FILES = $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(notdir $(SRC_FILES)))
+DEP_FILES = $(OBJ_FILES:.o=.d)
+
+# Default target
+all: $(TARGET)
 
 # Rule to build the target
 $(TARGET): $(OBJ_FILES)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ_FILES)
-	rm -f $(OBJ_FILES)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+	rm -rf $(BUILD_DIR)
 # Rule to build object files
-%.o: %.cpp
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-	
+
+$(BUILD_DIR)/%.o: $(DATA_DIR)/%.cpp | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/%.o: $(EXCEPTION_DIR)/%.cpp | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/%.o: $(GENERAL_DIR)/%.cpp | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Ensure the build directory exists
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+ 
 # Clean rule
 clean:
-	rm -f $(TARGET)
-	
+	rm -rf $(TARGET) $(BUILD_DIR)
+
+# Run target
+run: $(TARGET)
+	./$(TARGET) 
+
+# Include dependency files
+-include $(DEP_FILES)
 
 # Phony targets
-.PHONY: clean
+.PHONY: all clean run
