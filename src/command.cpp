@@ -80,6 +80,7 @@ void CommandHandle::login(const vector<string>& command_line){
     }else
         throw PermisionException(PERMISSION_DENIED);
 }
+//Test method
 void CommandHandle::showUsers(const vector<string>& command_line){
     for(auto& user:users){
         cout << user->getUsername()<<" " <<user->getPassword()<<" " <<user->loged_in<<endl;
@@ -151,7 +152,15 @@ void CommandHandle::getDistrict(const vector<string> &command_line){
 }
 
 void CommandHandle::getRestaurant(const vector<string> &command_line){
-    
+    if(command_line.size() < 3)
+            throw BadReqException(BAD_REQ);
+    if(current_user == nullptr)
+        throw PermisionException(PERMISSION_DENIED);
+
+    map<string,string> args=Utility::commandArgs(command_line);
+    if(args.find(FOOD_NAME) != args.end()){
+        
+    }
 }
 
 void CommandHandle::getRestaurantDetails(const vector<string> &command_line){
@@ -175,5 +184,27 @@ void CommandHandle::deleteCommand(const vector<string> &command_line){
 }
 
 void CommandHandle::putCommand(const vector<string> &command_line){
+    string action=command_line[1];
+    if(action==MY_DISTRICT)
+        setDistrict(command_line);
+    else
+        throw NotFoundException(NOT_FOUND);
+}
 
+void CommandHandle::setDistrict(const vector<string>& command_line){
+    if(command_line.size() < 5)
+            throw BadReqException(BAD_REQ);
+    if(current_user == nullptr)
+        throw PermisionException(PERMISSION_DENIED);
+
+    map<string,string> args=Utility::commandArgs(command_line);
+    if(args.find(DISTRICT) != args.end()){
+        string district = Utility::removeQuotation(args.find(DISTRICT)->second);
+        auto dis_ptr =findDistrict(district);
+        if(dis_ptr==nullptr)
+            throw NotFoundException(NOT_FOUND);
+        current_user->user_district=dis_ptr;
+        return;
+    }else
+        throw BadReqException(BAD_REQ);
 }

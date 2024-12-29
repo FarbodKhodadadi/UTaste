@@ -13,7 +13,7 @@ private:
 
 string name;
 vector<string> neighbours;
-
+vector<Restaurant*> dis_restaurants;
 
 };
 

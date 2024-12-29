@@ -19,6 +19,8 @@ private:
     vector<User*>& users;
     User* current_user =nullptr;
     void putCommand(const vector<string>& command_line);
+    void setDistrict(const vector<string>& command_line);
+    void postCommand(const vector<string>& command_line);
     void signup(const vector<string>& command_line);
     void login(const vector<string>& command_line);
     void logout(const vector<string>& command_line);
@@ -31,7 +33,7 @@ private:
     void getRestaurantDetails(const vector<string>& command_line);
     void getReserves(const vector<string>& command_line);
     District* findDistrict(const string name);
-    void postCommand(const vector<string>& command_line);
+    
     //test method
     void showUsers(const vector<string>& command_line);
 };

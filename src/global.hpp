@@ -35,6 +35,7 @@ const string DISTRICT_COMM="districts";
 const string RESTAURANT="restaurants";
 const string RESTAURANTS_DETAILS="restaurants_detail";
 const string RESERVES="reserves";
+const string MY_DISTRICT="my_district";
 
 
 const string DISTRICT="district";
