@@ -9,6 +9,7 @@ public:
     static vector<string> neighbourHandle(const string &input,char neighbour_delimiter);
     static map<string ,string> commandArgs(const vector<string>& input);
     static string removeQuotation(const string& input);
+    static map<string,int> orderHandle(const string &input);
 private:
 
 };

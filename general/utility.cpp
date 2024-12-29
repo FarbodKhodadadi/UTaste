@@ -11,7 +11,15 @@ vector<string> Utility::split(const string& input , char delimiter){
     }
     return result;
 }
+map<string,int> Utility::orderHandle(const string &input){
+    auto temp=split(input,DELIMITER);
+    map<string, int> foodCount;
 
+    for (const auto& food : temp) {
+        foodCount[food]++;
+    }
+    return foodCount;
+}
 map<string ,int> Utility::menuHandle(const string& input ,char menu_delimiter ,char price_delimiter){
     map<string,int> result;
     auto items = split(input ,menu_delimiter);
