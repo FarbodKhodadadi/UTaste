@@ -6,7 +6,7 @@
 class BadReqException : public Exception{
 public:
     BadReqException(): Exception(){};;
-    BadReqException(std::string bad_request_message) : Exception(exception_message){};
+    BadReqException(std::string bad_request_message) : Exception(bad_request_message){};
     static std::string getMessageBadRequest(){return "Bad Request";}
 
 };
