@@ -164,9 +164,31 @@ void CommandHandle::getRestaurant(const vector<string> &command_line){
 }
 
 void CommandHandle::getRestaurantDetails(const vector<string> &command_line){
-    
+    if(command_line.size() < 5)
+            throw BadReqException(BAD_REQ);
+    if(current_user == nullptr)
+        throw PermisionException(PERMISSION_DENIED);
+    map<string,string> args=Utility::commandArgs(command_line);
+
+    if(args.find(RESTAURANT_NAME) != args.end()){
+
+        string restaurant = Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
+
+        auto res_ptr =findRestaurant(restaurant);
+        if(res_ptr==nullptr)
+            throw NotFoundException(NOT_FOUND);
+        res_ptr->printRestaurant();
+    }else
+        throw BadReqException(BAD_REQ);
 }
 
+Restaurant* CommandHandle::findRestaurant(const string name){
+    for(int i=0 ; i<restaurants.size() ;i++){
+        if(restaurants[i]->getName()==name)
+            return restaurants[i];
+    }
+    return nullptr;
+}
 void CommandHandle::getReserves(const vector<string> &command_line){
     
 }

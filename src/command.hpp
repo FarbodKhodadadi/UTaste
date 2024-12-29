@@ -33,6 +33,7 @@ private:
     void getRestaurantDetails(const vector<string>& command_line);
     void getReserves(const vector<string>& command_line);
     District* findDistrict(const string name);
+    Restaurant* findRestaurant(const string name);
     
     //test method
     void showUsers(const vector<string>& command_line);

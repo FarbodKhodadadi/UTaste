@@ -3,10 +3,6 @@
 
 int main(int argc ,char* argv[]){
 
-    //test
-    cout<<argv[0]<<endl;
-    cout <<argv[1]<<endl;
-    cout <<argv[2]<<endl;
     vector<Restaurant*> restaurants;
     vector<District*> districts;
   

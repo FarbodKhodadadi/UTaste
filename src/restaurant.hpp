@@ -2,15 +2,18 @@
 #define RESTAURANT_H
 
 #include <vector>
+#include <iostream>
 #include <string>
+#include <iterator>
+#include <algorithm>
 #include <map>
 using namespace std;
 
 class Restaurant{
 public:
     Restaurant(string name_,string district_ ,map<string,int> menu_ ,int start_time_ ,int close_time_,int num_of_tables_);
-
-
+    void printRestaurant();
+    string getName();
 
 private:
 
@@ -21,7 +24,7 @@ int close_time;
 map<string,int>  menu;
 string distirct;
 
-vector< vector<int> > reservations;
+map<int,vector<pair<int,int>>> reservations;
 
 };
 
