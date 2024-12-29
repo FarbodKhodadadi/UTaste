@@ -13,11 +13,10 @@ vector<string> Utility::split(const string& input , char delimiter){
 }
 
 map<string ,int> Utility::menuHandle(const string& input ,char menu_delimiter ,char price_delimiter){
-
     map<string,int> result;
     auto items = split(input ,menu_delimiter);
-    for(auto &item: items){
-        auto food_price = split(item ,price_delimiter);
+    for(int i=0;i<items.size();i++){
+        auto food_price = split(items[i] ,price_delimiter);
         result[food_price[0]]=stoi(food_price[1]);
     }
     return result;

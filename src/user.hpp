@@ -16,7 +16,6 @@ private:
 
 string username;
 string password;
-District* user_district;
 
 };
 

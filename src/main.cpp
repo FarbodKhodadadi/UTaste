@@ -3,13 +3,15 @@
 
 int main(int argc ,char* argv[]){
 
-    //string restaurants_path = argv[1];
-    //string districts_path = argv[2];
+    //test
+    cout<<argv[0]<<endl;
+    cout <<argv[1]<<endl;
+    cout <<argv[2]<<endl;
     vector<Restaurant*> restaurants;
     vector<District*> districts;
-    // CsvData Loader(restaurants_path,districts_path);
-    // restaurants= Loader.loadRestaurants();
-    // districts= Loader.loadDistricts();
+  
+    restaurants= CsvData::loadRestaurants(argv[1]);
+    districts= CsvData::loadDistricts(argv[2]);
     vector<User*> users;
     CommandHandle cmd(restaurants,districts,users);
     string input;
