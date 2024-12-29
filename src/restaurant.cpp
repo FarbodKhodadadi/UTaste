@@ -5,7 +5,7 @@ Restaurant::Restaurant(string name_,string district_ ,map<string,int> menu_ ,int
             num_of_tables(num_of_tables_ ){
 
             for(int i=0;i<num_of_tables<i++;i++){
-                reservations[i]={};
+                reservations[i]->table_num=i;
             }
 }
 
@@ -21,16 +21,54 @@ void Restaurant::printRestaurant(){
         cout<<" "<<it->first<<"("<<it->second<<")";
         if (next(it) != sorted_menu.end()) {
             cout << ","; 
-        }
+        }else
+            cout << endl;
     }
     for(int i=0;i<num_of_tables;i++){
         cout<<i<<":";
-        for (auto it=reservations[i].begin();it!=reservations[i].end();it++){
-            cout << " (" <<it->first<<"-"<<it->second<<")";
-            if (next(it) != reservations[i].end()) {
-                cout << ","; 
+        for (auto it :reservations){
+            if(it->table_num==i){
+                cout << " (" << it->start_time << "-" << it->end_time << ")";
+                if (next(find(reservations.begin(), reservations.end(), it)) != reservations.end()) {
+                    cout << ","; 
+                }else
+                    cout <<endl;
             }
+           
         }
     }
 }
-string Restaurant::getName(){return name;}
+bool Restaurant::checkReserve(int table, int start, int end){
+
+    for(auto res:reservations){
+        if(res->table_num == table){
+            if(max(start,res->start_time) < min(end,res->end_time)){
+                return false;
+            }
+        }
+
+    }
+    return true;
+}
+
+bool Restaurant::checkMenu(map<string, int> order)
+{   
+    for (const auto& item : order) {
+        if (menu.find(item.first) == menu.end()) {
+            return false;
+        }
+    }
+    return true;
+}
+bool Restaurant::checkTable(int table){
+    if(table<1 || table>num_of_tables){
+        throw NotFoundException(NOT_FOUND);
+    }else
+        return true;
+}
+bool Restaurant::checkWorkingTime(int start, int end)
+{
+    if(start < start_time ||end > close_time)
+        return false;
+}
+string Restaurant::getName() { return name; }

@@ -2,6 +2,7 @@
 #define USER_H
 #include <string>
 #include "districts.hpp"
+#include "reserve.hpp"
 using namespace std;
 
 class User{
@@ -12,6 +13,8 @@ public:
     string getPassword();
     bool loged_in = false;
     District* user_district;
+    vector<Reservation*> reserves;
+    bool checkUserReserve(int start,int end);
 private:
 
 string username;
