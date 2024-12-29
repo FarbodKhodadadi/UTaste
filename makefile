@@ -9,6 +9,7 @@ EXCEPTION_DIR = exeption
 GENERAL_DIR = general
 BUILD_DIR = build
 
+
 # Output
 TARGET = main
 
@@ -51,7 +52,7 @@ clean:
 
 # Run target
 run: $(TARGET)
-	./$(TARGET) 
+	./$(TARGET)
 
 # Include dependency files
 -include $(DEP_FILES)
