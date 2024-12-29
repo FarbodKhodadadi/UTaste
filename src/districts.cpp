@@ -6,7 +6,11 @@ string District::getName(){return name;}
 void District::printDistrict(){
     cout << name << ": ";
     for(auto dis : neighbours){
-        cout << dis <<", ";
+        if (dis == neighbours.back()) {
+            cout << dis;
+        } else {
+            cout << dis << ", ";
+        }
     }
     cout << endl;
 }

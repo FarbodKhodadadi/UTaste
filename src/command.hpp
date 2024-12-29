@@ -24,6 +24,7 @@ private:
     void signup(const vector<string>& command_line);
     void login(const vector<string>& command_line);
     void logout(const vector<string>& command_line);
+    void postReserve(const vector<string>& command_line);
     User* findUser(string username);
     static void OK();
     void deleteCommand(const vector<string>& command_line);

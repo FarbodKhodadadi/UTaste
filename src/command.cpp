@@ -29,10 +29,47 @@ void CommandHandle::postCommand(const vector<string> &command_line){
         login(command_line);
     else if(action==LOGOUT)
         logout(command_line);
+    else if(action==RESERVES)
+        postReserve(command_line);
     else
         throw NotFoundException(NOT_FOUND);
 }
+void CommandHandle::postReserve(const vector<string>& command_line){
+    if(command_line.size() < 13)
+        throw BadReqException(BAD_REQ);
+    if(current_user !=nullptr)
+        throw PermisionException(PERMISSION_DENIED);
 
+    map<string,string> args=Utility::commandArgs(command_line);
+    if(args.find(RESTAURANT_NAME) == args.end() || args.find(TABLE_ID)==args.end() ||
+        args.find(START_TIME)==args.end() || args.find(END_TIME)==args.end() || args.find(FOODS)==args.end())
+        throw BadReqException(BAD_REQ);
+    string restaurant_name = Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
+    int table_id = stoi(Utility::removeQuotation(args.find(TABLE_ID)->second));
+    int start_time = stoi(Utility::removeQuotation(args.find(START_TIME)->second));
+    int end_time = stoi(Utility::removeQuotation(args.find(END_TIME)->second));
+    string foods=Utility::removeQuotation(args.find(FOODS)->second);
+    auto order=Utility::orderHandle(foods);
+
+    auto res_ptr=findRestaurant(restaurant_name);
+    if(res_ptr==nullptr)
+        throw NotFoundException(NOT_FOUND);
+    if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || !res_ptr->checkReserve(table_id,start_time,end_time) 
+        || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || res_ptr->checkTable(table_id)){
+        throw PermisionException(PERMISSION_DENIED);
+    }
+    if(!res_ptr->checkMenu(order))
+        throw NotFoundException(NOT_FOUND);
+
+    int reserve_id=res_ptr->last_reserve_id +=1;
+
+    auto res_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,order,table_id);
+
+    res_ptr->reservations.push_back(res_class);
+    current_user->reserves.push_back(res_class);
+
+    res_class=nullptr;
+}
 void CommandHandle::signup(const vector<string>& command_line){
 
     if(command_line.size() < 7)
@@ -82,8 +119,8 @@ void CommandHandle::login(const vector<string>& command_line){
 }
 //Test method
 void CommandHandle::showUsers(const vector<string>& command_line){
-    for(auto& user:users){
-        cout << user->getUsername()<<" " <<user->getPassword()<<" " <<user->loged_in<<endl;
+    for(auto& res:restaurants){
+        cout <<res->getName()<<endl;
     }
 }
 void CommandHandle::logout(const vector<string>& command_line){

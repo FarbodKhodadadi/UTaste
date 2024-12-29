@@ -33,7 +33,7 @@ const string LOGIN="login";
 const string LOGOUT="logout";   
 const string DISTRICT_COMM="districts";
 const string RESTAURANT="restaurants";
-const string RESTAURANTS_DETAILS="restaurants_detail";
+const string RESTAURANTS_DETAILS="restaurant_detail";
 const string RESERVES="reserves";
 const string MY_DISTRICT="my_district";
 
