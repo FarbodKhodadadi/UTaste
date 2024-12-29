@@ -41,7 +41,7 @@ map<string , string> Utility::commandArgs(const vector<string>& command){
             if(i+1 >=command.size()){
                 throw BadReqException(BAD_REQ);
             }
-            result[command[i]]=command[i];
+            result[command[i]]=command[i+1];
         }
 
     }
