@@ -1,11 +1,14 @@
 #include "data.hpp"
 
+CsvData::CsvData(string rest ,string dis):restaurant_path(rest),district_path(dis){}
 
-vector<Restaurant*> CsvData::loadRestaurants(const string &restaurant_path){
+vector<Restaurant*> CsvData::loadRestaurants(){
     
     vector<Restaurant*> restaurants;
-    fstream file(restaurant_path);
-
+    ifstream file(restaurant_path);
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open file " << "\n";
+    }
     string input;
     getline(file,input);
 
@@ -19,13 +22,16 @@ vector<Restaurant*> CsvData::loadRestaurants(const string &restaurant_path){
         int num_tables=stoi(token[6]);
         restaurants.push_back(new Restaurant(name ,district ,menu,open_time,close_time,num_tables));
     }
+    file.close();
     return restaurants;
 }
 
-vector<District*> CsvData::loadDistricts(const string & district_path){
+vector<District*> CsvData::loadDistricts(){
     vector<District*> districts;
-        fstream file(district_path);
-
+        ifstream file(district_path);
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open file " << "\n";
+    }
         string input;
         getline(file,input);
 
@@ -35,5 +41,6 @@ vector<District*> CsvData::loadDistricts(const string & district_path){
             vector<string> neighbours = Utility::neighbourHandle(token[1],NEIGHBOUR_DELIMITER);
             districts.push_back(new District(name,neighbours));
         }
+        file.close();
         return districts;
 }

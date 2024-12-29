@@ -5,7 +5,10 @@
 
 class CsvData{
 public:
-    static vector<Restaurant*> loadRestaurants(const string &restaurant_path);
-    static vector<District*> loadDistricts(const string &districs_path);
-
+    CsvData(string rest, string dis);
+    vector<Restaurant*> loadRestaurants();
+    vector<District*> loadDistricts();
+private:
+    string restaurant_path;
+    string district_path;
 };

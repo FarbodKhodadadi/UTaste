@@ -22,7 +22,7 @@ private:
     void signup(const vector<string>& command_line);
     void login(const vector<string>& command_line);
     void logout(const vector<string>& command_line);
-    User* findUser(const string username);
+    User* findUser(string username);
     static void OK();
     void deleteCommand(const vector<string>& command_line);
     void getCommand(const vector<string>& command_line);
@@ -32,6 +32,8 @@ private:
     void getReserves(const vector<string>& command_line);
     District* findDistrict(const string name);
     void postCommand(const vector<string>& command_line);
+    //test method
+    void showUsers(const vector<string>& command_line);
 };
 
 #endif

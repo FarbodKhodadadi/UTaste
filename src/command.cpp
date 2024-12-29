@@ -15,6 +15,8 @@ void CommandHandle::commandProcess(const string& input){
         deleteCommand(tokens);
     else if(command ==POST)
         postCommand(tokens);
+    else if(command == "show")
+        showUsers(tokens);
     else
         throw BadReqException(BAD_REQ);
 }
@@ -42,14 +44,15 @@ void CommandHandle::signup(const vector<string>& command_line){
     if(args.find("username") == args.end() || args.find("password")==args.end())
         throw BadReqException(BAD_REQ);
     
-    string username = Utility::removeQuotation(args.find("username")->second);
-    string password = Utility::removeQuotation(args.find("password")->second);
+    string input_username = Utility::removeQuotation(args.find("username")->second);
+    string input_password = Utility::removeQuotation(args.find("password")->second);
     
-    if(findUser(username)!=nullptr)
+    if(findUser(input_username)!=nullptr)
         throw BadReqException(BAD_REQ);
+
     OK();
 
-    current_user=new User(username,password,true);
+    current_user=new User(input_username,input_password,true);
     users.push_back(current_user);
     
 }
@@ -63,22 +66,25 @@ void CommandHandle::login(const vector<string>& command_line){
     map<string,string> args=Utility::commandArgs(command_line);
     if(args.find(USERNAME) == args.end() || args.find(PASSWORD)==args.end())
         throw BadReqException(BAD_REQ);
-    string username = Utility::removeQuotation(args.find(USERNAME)->second);
-    string password = Utility::removeQuotation(args.find(PASSWORD)->second);
+    string input_username = Utility::removeQuotation(args.find(USERNAME)->second);
+    string input_password = Utility::removeQuotation(args.find(PASSWORD)->second);
 
-    auto user = findUser(username);
-    if(user==nullptr){
-        cout <<"hi"<<endl;
+    auto user = findUser(input_username);
+    if(user==nullptr)
         throw NotFoundException(NOT_FOUND);
-    }
-    if(user->getPassword() != password)
+
+    if(input_password == user->getPassword()){
+        current_user=user;
+        current_user->loged_in=true;
+        OK();
+    }else
         throw PermisionException(PERMISSION_DENIED);
-
-    user->loged_in=true;
-    current_user=user;
-    OK();
 }
-
+void CommandHandle::showUsers(const vector<string>& command_line){
+    for(auto& user:users){
+        cout << user->getUsername()<<" " <<user->getPassword()<<" " <<user->loged_in<<endl;
+    }
+}
 void CommandHandle::logout(const vector<string>& command_line){
     if(command_line.size() < 3)
             throw BadReqException(BAD_REQ);
@@ -91,10 +97,10 @@ void CommandHandle::logout(const vector<string>& command_line){
 }
 
 void CommandHandle::OK(){
-    cout << OK << endl;
+    cerr << "OK" << endl;
 }
 
-User* CommandHandle::findUser(const string username){
+User* CommandHandle::findUser(string username){
     for(int i =0 ;i <users.size();i++){
         if(users[i]->getUsername() == username){
             return users[i];
@@ -120,7 +126,7 @@ void CommandHandle::getCommand(const vector<string> &command_line){
 void CommandHandle::getDistrict(const vector<string> &command_line){
     if(command_line.size() < 3)
             throw BadReqException(BAD_REQ);
-    if(current_user!= nullptr)
+    if(current_user == nullptr)
         throw PermisionException(PERMISSION_DENIED);
 
     map<string,string> args=Utility::commandArgs(command_line);
