@@ -2,7 +2,6 @@
 #define RESERVE_H
 
 #include "global.hpp"
-#include "restaurant.hpp"
 
 class Reservation{
 public:

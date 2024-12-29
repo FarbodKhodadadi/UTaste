@@ -3,9 +3,10 @@
 Restaurant::Restaurant(string name_,string district_ ,map<string,int> menu_ ,int start_time_ ,int close_time_,int num_of_tables_ ):
             name(name_),distirct(district_) ,menu(menu_),start_time(start_time_) ,close_time(close_time_),
             num_of_tables(num_of_tables_ ){
-
-            for(int i=0;i<num_of_tables<i++;i++){
-                reservations[i]->table_num=i;
+            
+            for(int i=1;i<num_of_tables+1<i++;i++){
+                tables.push_back(i);
+                reservations.push_back(nullptr);
             }
 }
 
@@ -24,18 +25,17 @@ void Restaurant::printRestaurant(){
         }else
             cout << endl;
     }
-    for(int i=0;i<num_of_tables;i++){
+    for(int i=1;i<num_of_tables+1;i++){
         cout<<i<<":";
-        for (auto it :reservations){
+        for (auto &it :reservations){
             if(it->table_num==i){
                 cout << " (" << it->start_time << "-" << it->end_time << ")";
-                if (next(find(reservations.begin(), reservations.end(), it)) != reservations.end()) {
+                if (next(find(reservations.begin(), reservations.end(), it)) != reservations.end())
                     cout << ","; 
-                }else
-                    cout <<endl;
             }
            
         }
+        cout << endl;
     }
 }
 bool Restaurant::checkReserve(int table, int start, int end){
@@ -70,5 +70,6 @@ bool Restaurant::checkWorkingTime(int start, int end)
 {
     if(start < start_time ||end > close_time)
         return false;
+    return true;
 }
 string Restaurant::getName() { return name; }

@@ -29,7 +29,7 @@ void CommandHandle::postCommand(const vector<string> &command_line){
         login(command_line);
     else if(action==LOGOUT)
         logout(command_line);
-    else if(action==RESERVES)
+    else if(action==RESERVE)
         postReserve(command_line);
     else
         throw NotFoundException(NOT_FOUND);
@@ -37,12 +37,12 @@ void CommandHandle::postCommand(const vector<string> &command_line){
 void CommandHandle::postReserve(const vector<string>& command_line){
     if(command_line.size() < 13)
         throw BadReqException(BAD_REQ);
-    if(current_user !=nullptr)
+    if(current_user ==nullptr)
         throw PermisionException(PERMISSION_DENIED);
 
     map<string,string> args=Utility::commandArgs(command_line);
     if(args.find(RESTAURANT_NAME) == args.end() || args.find(TABLE_ID)==args.end() ||
-        args.find(START_TIME)==args.end() || args.find(END_TIME)==args.end() || args.find(FOODS)==args.end())
+        args.find(START_TIME)==args.end() || args.find(END_TIME)==args.end())
         throw BadReqException(BAD_REQ);
     string restaurant_name = Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
     int table_id = stoi(Utility::removeQuotation(args.find(TABLE_ID)->second));
@@ -58,9 +58,10 @@ void CommandHandle::postReserve(const vector<string>& command_line){
         || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || res_ptr->checkTable(table_id)){
         throw PermisionException(PERMISSION_DENIED);
     }
-    if(!res_ptr->checkMenu(order))
+    if(!res_ptr->checkMenu(order)){
+        cout<<"hi"<<endl;
         throw NotFoundException(NOT_FOUND);
-
+    }
     int reserve_id=res_ptr->last_reserve_id +=1;
 
     auto res_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,order,table_id);
@@ -97,7 +98,7 @@ void CommandHandle::signup(const vector<string>& command_line){
 void CommandHandle::login(const vector<string>& command_line){
     if(command_line.size() < 7)
             throw BadReqException(BAD_REQ);
-    if(current_user!= nullptr)
+    if(current_user != nullptr)
         throw PermisionException(PERMISSION_DENIED);
 
     map<string,string> args=Utility::commandArgs(command_line);

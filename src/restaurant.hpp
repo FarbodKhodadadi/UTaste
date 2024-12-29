@@ -18,7 +18,7 @@ public:
     int last_reserve_id=0;
     vector<Reservation*> reservations;
 private:
-
+vector<int> tables;
 string name;
 int num_of_tables;
 int start_time;
