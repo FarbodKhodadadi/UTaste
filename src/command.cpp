@@ -60,10 +60,11 @@ void CommandHandle::postReserve(const vector<string>& command_line){
 
         auto order_price=res_ptr->handlePrice(order);
 
-        if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || !res_ptr->checkReserve(table_id,start_time,end_time) 
-            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || res_ptr->checkTable(table_id)){
+        if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || res_ptr->checkReserve(table_id,start_time,end_time) 
+            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || !res_ptr->checkTable(table_id)){
             throw PermisionException(PERMISSION_DENIED);
         }
+        
         if(!res_ptr->checkMenu(order)){
             throw NotFoundException(NOT_FOUND);
         }
@@ -86,8 +87,8 @@ void CommandHandle::postReserve(const vector<string>& command_line){
         auto res_ptr=findRestaurant(restaurant_name);
         if(res_ptr==nullptr)
             throw NotFoundException(NOT_FOUND);
-        if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || !res_ptr->checkReserve(table_id,start_time,end_time) 
-            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || res_ptr->checkTable(table_id)){
+        if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || res_ptr->checkReserve(table_id,start_time,end_time) 
+            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || !res_ptr->checkTable(table_id)){
             throw PermisionException(PERMISSION_DENIED);
         }
         int reserve_id=res_ptr->last_reserve_id +=1;
