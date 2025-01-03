@@ -64,7 +64,7 @@ void CommandHandle::postReserve(const vector<string>& command_line){
             || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || !res_ptr->checkTable(table_id)){
             throw PermisionException(PERMISSION_DENIED);
         }
-        
+
         if(!res_ptr->checkMenu(order)){
             throw NotFoundException(NOT_FOUND);
         }
@@ -260,7 +260,25 @@ Restaurant* CommandHandle::findRestaurant(const string name){
     return nullptr;
 }
 void CommandHandle::getReserves(const vector<string> &command_line){
-    
+    if(command_line.size() < 3)
+            throw BadReqException(BAD_REQ);
+    if(current_user == nullptr)
+        throw PermisionException(PERMISSION_DENIED);
+
+    map<string,string> args=Utility::commandArgs(command_line);
+
+    if(args.find(RESTAURANT_NAME) != args.end()){
+        if(args.find(RESERVE_ID) != args.end()){
+            for(auto &it:current_user->reserves){
+                
+            }
+        }
+    }else{
+       if(args.find(RESERVE_ID) != args.end()){
+        throw BadReqException(BAD_REQ);
+       }
+
+    }
 }
 
 District* CommandHandle::findDistrict(const string name){
