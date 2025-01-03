@@ -1,6 +1,6 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++11 -I./data -I./exeption -I./general -I./src -MMD -MP
+CXXFLAGS = -std=c++20 -I./data -I./exeption -I./general -I./src -MMD -MP
 
 # Directories
 SRC_DIR = src
