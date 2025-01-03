@@ -35,7 +35,7 @@ void CommandHandle::postCommand(const vector<string> &command_line){
         throw NotFoundException(NOT_FOUND);
 }
 void CommandHandle::postReserve(const vector<string>& command_line){
-    if(command_line.size() < 13)
+    if(command_line.size() < 10)
         throw BadReqException(BAD_REQ);
     if(current_user ==nullptr)
         throw PermisionException(PERMISSION_DENIED);
@@ -169,15 +169,8 @@ void CommandHandle::getDistrict(const vector<string> &command_line){
         throw PermisionException(PERMISSION_DENIED);
 
     map<string,string> args=Utility::commandArgs(command_line);
-    if(args.find(DISTRICT) != args.end()){
-        string district = Utility::removeQuotation(args.find(DISTRICT)->second);
-        auto dis_ptr =findDistrict(district);
-        if(dis_ptr==nullptr)
-            throw NotFoundException(NOT_FOUND);
-        dis_ptr->printDistrict();
-        return;
-    }
-    else{
+
+    if(args.find(DISTRICT) == args.end()){
         if(districts.empty())
             throw EmptyException(EMPTY);
         sort(districts.begin(), districts.end(), [](District* a, District* b) {
@@ -186,6 +179,13 @@ void CommandHandle::getDistrict(const vector<string> &command_line){
         for(auto& district : districts) {
             district->printDistrict();
         }
+    }else{
+        string district = Utility::removeQuotation(args.find(DISTRICT)->second);
+        auto dis_ptr =findDistrict(district);
+        if(dis_ptr==nullptr)
+            throw NotFoundException(NOT_FOUND);
+        dis_ptr->printDistrict();
+        return;
     }
 }
 

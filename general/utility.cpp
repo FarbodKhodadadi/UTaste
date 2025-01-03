@@ -33,8 +33,9 @@ map<string ,int> Utility::menuHandle(const string& input ,char menu_delimiter ,c
 vector<string> Utility::neighbourHandle(const string &input , char neighbout_delimiter){
     vector<string> result;
     auto items=split(input,neighbout_delimiter);
+    
     for(int i=0 ; i< items.size() ;i++){
-        result[i]=items[i];
+        result.push_back(items[i]);
     }
     return result;
 }
@@ -44,7 +45,7 @@ map<string , string> Utility::commandArgs(const vector<string>& command){
     for(int i=0 ;i <command.size() ;i++){
         if(command[i]==USERNAME || command[i]==PASSWORD || command[i]==RESTAURANT_NAME 
         || command[i]==FOODS || command[i]==FOOD_NAME || command[i]==START_TIME
-        || command[i]==END_TIME  || command[i]==RESERVE_ID || command[i]==TABLE_ID){
+        || command[i]==END_TIME  || command[i]==RESERVE_ID || command[i]==TABLE_ID || command[i]==DISTRICT){
             if(i+1 >=command.size()){
                 throw BadReqException(BAD_REQ);
             }
