@@ -14,6 +14,7 @@ public:
     bool checkMenu(map<string,int> order);
     bool checkTable(int table);
     bool checkWorkingTime(int start,int end);
+    map<string,int> handlePrice(map<string,int> order);
     string getName();
     int last_reserve_id=0;
     vector<Reservation*> reservations;

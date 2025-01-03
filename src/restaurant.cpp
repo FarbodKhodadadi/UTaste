@@ -4,9 +4,9 @@ Restaurant::Restaurant(string name_,string district_ ,map<string,int> menu_ ,int
             name(name_),distirct(district_) ,menu(menu_),start_time(start_time_) ,close_time(close_time_),
             num_of_tables(num_of_tables_ ){
             
-            for(int i=1;i<num_of_tables+1<i++;i++){
+            for(int i=1;i<num_of_tables+1;i++){
                 tables.push_back(i);
-                reservations.push_back(nullptr);
+                reservations.push_back(new Reservation());
             }
 }
 
@@ -42,13 +42,12 @@ bool Restaurant::checkReserve(int table, int start, int end){
 
     for(auto res:reservations){
         if(res->table_num == table){
-            if(max(start,res->start_time) < min(end,res->end_time)){
-                return false;
+            if(start < res->end_time && end > res->start_time){
+                return true;
             }
         }
-
     }
-    return true;
+    return false;
 }
 
 bool Restaurant::checkMenu(map<string, int> order)
@@ -60,16 +59,24 @@ bool Restaurant::checkMenu(map<string, int> order)
     }
     return true;
 }
+
 bool Restaurant::checkTable(int table){
     if(table<1 || table>num_of_tables){
         throw NotFoundException(NOT_FOUND);
-    }else
-        return true;
+    }
+    return true;
 }
 bool Restaurant::checkWorkingTime(int start, int end)
 {
     if(start < start_time ||end > close_time)
         return false;
     return true;
+}
+map<string, int> Restaurant::handlePrice(map<string, int> order){
+    map<string,int> result;
+    for(auto &it:order){
+        result[it.first] = menu.find(it.first)->second;
+    }
+    return result;
 }
 string Restaurant::getName() { return name; }

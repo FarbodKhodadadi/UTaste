@@ -35,41 +35,72 @@ void CommandHandle::postCommand(const vector<string> &command_line){
         throw NotFoundException(NOT_FOUND);
 }
 void CommandHandle::postReserve(const vector<string>& command_line){
-    if(command_line.size() < 10)
+    if(command_line.size() < 11)
         throw BadReqException(BAD_REQ);
     if(current_user ==nullptr)
         throw PermisionException(PERMISSION_DENIED);
 
     map<string,string> args=Utility::commandArgs(command_line);
+
     if(args.find(RESTAURANT_NAME) == args.end() || args.find(TABLE_ID)==args.end() ||
         args.find(START_TIME)==args.end() || args.find(END_TIME)==args.end())
         throw BadReqException(BAD_REQ);
-    string restaurant_name = Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
-    int table_id = stoi(Utility::removeQuotation(args.find(TABLE_ID)->second));
-    int start_time = stoi(Utility::removeQuotation(args.find(START_TIME)->second));
-    int end_time = stoi(Utility::removeQuotation(args.find(END_TIME)->second));
-    string foods=Utility::removeQuotation(args.find(FOODS)->second);
-    auto order=Utility::orderHandle(foods);
 
-    auto res_ptr=findRestaurant(restaurant_name);
-    if(res_ptr==nullptr)
-        throw NotFoundException(NOT_FOUND);
-    if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || !res_ptr->checkReserve(table_id,start_time,end_time) 
-        || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || res_ptr->checkTable(table_id)){
-        throw PermisionException(PERMISSION_DENIED);
-    }
-    if(!res_ptr->checkMenu(order)){
-        cout<<"hi"<<endl;
-        throw NotFoundException(NOT_FOUND);
-    }
-    int reserve_id=res_ptr->last_reserve_id +=1;
+    if(args.find(FOODS)!=args.end()){
+        string restaurant_name = Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
+        
+        int table_id = stoi(Utility::removeQuotation(args.find(TABLE_ID)->second));
+        int start_time = stoi(Utility::removeQuotation(args.find(START_TIME)->second));
+        int end_time = stoi(Utility::removeQuotation(args.find(END_TIME)->second));
+        string foods=Utility::removeQuotation(args.find(FOODS)->second);
+        auto order=Utility::orderHandle(foods);
+        auto res_ptr=findRestaurant(restaurant_name);
+        if(res_ptr==nullptr)
+            throw NotFoundException(NOT_FOUND);
 
-    auto res_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,order,table_id);
+        auto order_price=res_ptr->handlePrice(order);
 
-    res_ptr->reservations.push_back(res_class);
-    current_user->reserves.push_back(res_class);
+        if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || !res_ptr->checkReserve(table_id,start_time,end_time) 
+            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || res_ptr->checkTable(table_id)){
+            throw PermisionException(PERMISSION_DENIED);
+        }
+        if(!res_ptr->checkMenu(order)){
+            throw NotFoundException(NOT_FOUND);
+        }
+        int reserve_id=res_ptr->last_reserve_id +=1;
 
-    res_class=nullptr;
+        auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,order,table_id,order_price);
+
+        res_ptr->reservations.push_back(reserve_class);
+        current_user->reserves.push_back(reserve_class);
+        reserve_class->printReserve();
+        reserve_class=nullptr;
+        return;
+    }else{
+        string restaurant_name = Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
+        
+        int table_id = stoi(Utility::removeQuotation(args.find(TABLE_ID)->second));
+        int start_time = stoi(Utility::removeQuotation(args.find(START_TIME)->second));
+        int end_time = stoi(Utility::removeQuotation(args.find(END_TIME)->second));
+
+        auto res_ptr=findRestaurant(restaurant_name);
+        if(res_ptr==nullptr)
+            throw NotFoundException(NOT_FOUND);
+        if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || !res_ptr->checkReserve(table_id,start_time,end_time) 
+            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || res_ptr->checkTable(table_id)){
+            throw PermisionException(PERMISSION_DENIED);
+        }
+        int reserve_id=res_ptr->last_reserve_id +=1;
+
+        auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,table_id);
+
+        res_ptr->reservations.push_back(reserve_class);
+        current_user->reserves.push_back(reserve_class);
+        reserve_class->printReserve();
+
+        reserve_class=nullptr;
+        return;
+    } 
 }
 void CommandHandle::signup(const vector<string>& command_line){
 
@@ -264,6 +295,7 @@ void CommandHandle::setDistrict(const vector<string>& command_line){
         if(dis_ptr==nullptr)
             throw NotFoundException(NOT_FOUND);
         current_user->user_district=dis_ptr;
+        OK();
         return;
     }else
         throw BadReqException(BAD_REQ);
