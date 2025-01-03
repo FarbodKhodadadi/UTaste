@@ -11,7 +11,7 @@ BUILD_DIR = build
 
 
 # Output
-TARGET = main
+TARGET = UTaste
 
 # Source files
 SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(DATA_DIR)/*.cpp) \
