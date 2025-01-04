@@ -325,7 +325,44 @@ District* CommandHandle::findDistrict(const string name){
 }
 
 void CommandHandle::deleteCommand(const vector<string> &command_line){
+    string action=command_line[1];
+    if(action==RESERVE)
+        deleteReserve(command_line);
+    else
+        throw NotFoundException(NOT_FOUND);
+}
+void CommandHandle::deleteReserve(const vector<string> &command_line ){
+    if(command_line.size() < 7)
+            throw BadReqException(BAD_REQ);
+    if(current_user == nullptr)
+        throw PermisionException(PERMISSION_DENIED);
+    map<string,string> args=Utility::commandArgs(command_line);
 
+    if(args.find(RESTAURANT_NAME) == args.end() || args.find(RESERVE_ID) == args.end())
+        throw BadReqException(BAD_REQ);
+
+    string restaurant = Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
+    int reserve_id = stoi(Utility::removeQuotation(args.find(RESERVE_ID)->second));
+
+    auto restaurant_ptr = findRestaurant(restaurant);
+
+    if(restaurant_ptr==nullptr || restaurant_ptr->hasReserve(reserve_id))
+        throw NotFoundException(NOT_FOUND);
+    else if(!current_user->hasReserve(restaurant,reserve_id))
+        throw PermisionException(PERMISSION_DENIED);
+
+    for(int i=0;i<current_user->reserves.size();i++){
+        if(current_user->reserves[i]->reserve_id==reserve_id){
+            delete current_user->reserves[i];
+            current_user->reserves.erase(current_user->reserves.begin()+i);
+        }
+    }
+    for(int i=0;i<restaurant_ptr->reservations.size();i++){
+        if(restaurant_ptr->reservations[i]->reserve_id==reserve_id){
+            restaurant_ptr->reservations.erase(restaurant_ptr->reservations.begin()+i);
+            return;
+        }
+    }
 }
 
 void CommandHandle::putCommand(const vector<string> &command_line){

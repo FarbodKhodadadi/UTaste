@@ -28,6 +28,7 @@ private:
     User* findUser(string username);
     static void OK();
     void deleteCommand(const vector<string>& command_line);
+    void deleteReserve(const vector<string>& command_line );
     void getCommand(const vector<string>& command_line);
     void getDistrict(const vector<string>& command_line);
     void getRestaurant(const vector<string>& command_line);
