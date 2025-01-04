@@ -346,7 +346,7 @@ void CommandHandle::deleteReserve(const vector<string> &command_line ){
 
     auto restaurant_ptr = findRestaurant(restaurant);
 
-    if(restaurant_ptr==nullptr || restaurant_ptr->hasReserve(reserve_id))
+    if(restaurant_ptr==nullptr || !restaurant_ptr->hasReserve(reserve_id))
         throw NotFoundException(NOT_FOUND);
     else if(!current_user->hasReserve(restaurant,reserve_id))
         throw PermisionException(PERMISSION_DENIED);
@@ -360,6 +360,7 @@ void CommandHandle::deleteReserve(const vector<string> &command_line ){
     for(int i=0;i<restaurant_ptr->reservations.size();i++){
         if(restaurant_ptr->reservations[i]->reserve_id==reserve_id){
             restaurant_ptr->reservations.erase(restaurant_ptr->reservations.begin()+i);
+            OK();
             return;
         }
     }
