@@ -79,4 +79,12 @@ map<string, int> Restaurant::handlePrice(map<string, int> order){
     }
     return result;
 }
+bool Restaurant::hasReserve(int res_id){
+    for(auto it : reservations){
+        if(it->reserve_id==res_id){
+            return true;
+        }
+    }
+    return false;
+}
 string Restaurant::getName() { return name; }

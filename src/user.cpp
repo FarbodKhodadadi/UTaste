@@ -11,6 +11,14 @@ User::User(string name,string pass,bool loged_in_):username(name),password(pass)
 string User::getUsername(){return username;}
 string User::getPassword(){return password;}
 
+bool User::hasReserve(const string rest_name, int res_id){
+    for(auto &it: reserves){
+        if(it->restaurant == rest_name && it->reserve_id == res_id)
+            return true;
+    }
+    return false;
+}
+
 bool User::checkUserReserve(int start, int end){
     for (const auto& reservation : reserves) {
         if (max(start, reservation->start_time) < min(end, reservation->end_time)) {

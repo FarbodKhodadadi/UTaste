@@ -15,6 +15,7 @@ public:
     bool checkTable(int table);
     bool checkWorkingTime(int start,int end);
     map<string,int> handlePrice(map<string,int> order);
+    bool hasReserve(int res_id);
     string getName();
     int last_reserve_id=0;
     vector<Reservation*> reservations;

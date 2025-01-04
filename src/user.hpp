@@ -12,6 +12,7 @@ public:
     string getUsername();
     string getPassword();
     bool loged_in = false;
+    bool hasReserve(const string rest_name ,int res_id );
     District* user_district;
     vector<Reservation*> reserves;
     bool checkUserReserve(int start,int end);

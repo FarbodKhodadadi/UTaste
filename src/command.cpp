@@ -264,20 +264,45 @@ void CommandHandle::getReserves(const vector<string> &command_line){
             throw BadReqException(BAD_REQ);
     if(current_user == nullptr)
         throw PermisionException(PERMISSION_DENIED);
-
+    if(current_user->reserves.empty()){
+        throw EmptyException(EMPTY);
+    }
     map<string,string> args=Utility::commandArgs(command_line);
 
     if(args.find(RESTAURANT_NAME) != args.end()){
         if(args.find(RESERVE_ID) != args.end()){
+
+            string restaurant =args.find(RESTAURANT_NAME)->second;
+            int reserve_id=stoi(args.find(RESERVE_ID)->second);
+            auto restaurant_ptr = findRestaurant(restaurant);
+
+            if(restaurant_ptr==nullptr)
+                throw NotFoundException(NOT_FOUND);
+            else if(restaurant_ptr->hasReserve(reserve_id) && !current_user->hasReserve(restaurant,reserve_id))
+                throw PermisionException(PERMISSION_DENIED);
+
             for(auto &it:current_user->reserves){
-                
+                if(current_user->hasReserve(restaurant,reserve_id)){
+                    cout << it->reserve_id <<": " << it->restaurant << " "<< it->table_num << " " <<it->start_time <<"-"<<it->end_time;
+                    for(auto &order : it->orders){
+                        cout <<" "<<order.first<<"("<<order.second<<")";
+                    }
+                    cout <<endl;
+                    return;
+                }
             }
         }
     }else{
        if(args.find(RESERVE_ID) != args.end()){
         throw BadReqException(BAD_REQ);
        }
-
+        for(auto &res : current_user->reserves){
+            cout << res->reserve_id <<": " << res->restaurant << " "<< res->table_num << " " <<res->start_time <<"-"<<res->end_time;
+            for(auto &order : res->orders){
+                cout <<" "<<order.first<<"("<<order.second<<")";
+            }
+            cout <<endl;
+        }
     }
 }
 
