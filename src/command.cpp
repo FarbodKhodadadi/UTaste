@@ -291,6 +291,16 @@ void CommandHandle::getReserves(const vector<string> &command_line){
                     return;
                 }
             }
+        }else{
+            for(auto it : current_user->reserves){
+                if(it->restaurant==args.find(RESTAURANT_NAME)->second){
+                     cout << it->reserve_id <<": " << it->restaurant << " "<< it->table_num << " " <<it->start_time <<"-"<<it->end_time;
+                    for(auto &order : it->orders){
+                        cout <<" "<<order.first<<"("<<order.second<<")";
+                    }
+                    cout <<endl;
+                }
+            }
         }
     }else{
        if(args.find(RESERVE_ID) != args.end()){
