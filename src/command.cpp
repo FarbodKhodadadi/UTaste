@@ -272,8 +272,8 @@ void CommandHandle::getReserves(const vector<string> &command_line){
     if(args.find(RESTAURANT_NAME) != args.end()){
         if(args.find(RESERVE_ID) != args.end()){
 
-            string restaurant =args.find(RESTAURANT_NAME)->second;
-            int reserve_id=stoi(args.find(RESERVE_ID)->second);
+            string restaurant =Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
+            int reserve_id=stoi(Utility::removeQuotation(args.find(RESERVE_ID)->second));
             auto restaurant_ptr = findRestaurant(restaurant);
 
             if(restaurant_ptr==nullptr)
@@ -293,7 +293,7 @@ void CommandHandle::getReserves(const vector<string> &command_line){
             }
         }else{
             for(auto it : current_user->reserves){
-                if(it->restaurant==args.find(RESTAURANT_NAME)->second){
+                if(it->restaurant==Utility::removeQuotation(args.find(RESTAURANT_NAME)->second)){
                      cout << it->reserve_id <<": " << it->restaurant << " "<< it->table_num << " " <<it->start_time <<"-"<<it->end_time;
                     for(auto &order : it->orders){
                         cout <<" "<<order.first<<"("<<order.second<<")";
