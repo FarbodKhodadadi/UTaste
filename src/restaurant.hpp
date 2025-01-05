@@ -4,7 +4,8 @@
 #include "global.hpp"
 #include "reserve.hpp"
 #include "../exeption/generalException.hpp"
-using namespace std;
+#include "../discount/generaldiscount.hpp"
+
 
 class Restaurant{
 public:
@@ -19,6 +20,10 @@ public:
     string getName();
     int last_reserve_id=0;
     vector<Reservation*> reservations;
+    TotalPriceDiscount* totalprice_ptr;
+    FirstOrderDiscount* firstorder_ptr;
+    map<string,FoodDiscount*> food_discount_ptr;
+
 private:
 vector<int> tables;
 string name;

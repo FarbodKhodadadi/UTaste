@@ -5,6 +5,7 @@ CXXFLAGS = -std=c++20 -I./data -I./exeption -I./general -I./src -MMD -MP
 # Directories
 SRC_DIR = src
 DATA_DIR = data
+DIS_DIR=discount
 EXCEPTION_DIR = exeption
 GENERAL_DIR = general
 BUILD_DIR = build
@@ -15,7 +16,7 @@ TARGET = UTaste
 
 # Source files
 SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(DATA_DIR)/*.cpp) \
-            $(wildcard $(EXCEPTION_DIR)/*.cpp) $(wildcard $(GENERAL_DIR)/*.cpp)
+            $(wildcard $(EXCEPTION_DIR)/*.cpp) $(wildcard $(GENERAL_DIR)/*.cpp) $(wildcard $(DIS_DIR)/*.cpp)
 
 # Object files and dependency files
 OBJ_FILES = $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(notdir $(SRC_FILES)))
@@ -33,6 +34,9 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: $(DATA_DIR)/%.cpp | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/%.o: $(DIS_DIR)/%.cpp | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: $(EXCEPTION_DIR)/%.cpp | $(BUILD_DIR)

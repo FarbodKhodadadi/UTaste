@@ -8,6 +8,7 @@ int main(int argc ,char* argv[]){
   
     restaurants= CsvData::loadRestaurants(argv[1]);
     districts= CsvData::loadDistricts(argv[2]);
+    CsvData::loadDiscounts(argv[3],restaurants);
     vector<User*> users;
     CommandHandle cmd(restaurants,districts,users);
     string input;

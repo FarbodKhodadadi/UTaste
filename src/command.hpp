@@ -17,6 +17,7 @@ private:
     vector<Restaurant*>& restaurants;
     vector<District*>& districts;
     vector<User*>& users;
+    
     User* current_user =nullptr;
     void putCommand(const vector<string>& command_line);
     void setDistrict(const vector<string>& command_line);
@@ -25,8 +26,6 @@ private:
     void login(const vector<string>& command_line);
     void logout(const vector<string>& command_line);
     void postReserve(const vector<string>& command_line);
-    User* findUser(string username);
-    static void OK();
     void deleteCommand(const vector<string>& command_line);
     void deleteReserve(const vector<string>& command_line );
     void getCommand(const vector<string>& command_line);
@@ -34,6 +33,9 @@ private:
     void getRestaurant(const vector<string>& command_line);
     void getRestaurantDetails(const vector<string>& command_line);
     void getReserves(const vector<string>& command_line);
+    static void OK();
+
+    User* findUser(string username);
     District* findDistrict(const string name);
     Restaurant* findRestaurant(const string name);
     

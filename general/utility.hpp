@@ -1,6 +1,9 @@
 #ifndef UTILITY_H
 #define UTILITY_H
+
 #include "../src/global.hpp"
+
+
 
 class Utility{
 public:

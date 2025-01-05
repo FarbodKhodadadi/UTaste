@@ -16,6 +16,8 @@ const char DELIMITER =',';
 const char MENU_DELIMITER=';';
 const char PRICE_DELIMITER=':';
 const char NEIGHBOUR_DELIMITER=';';
+const char SEMICOLON_DELIMITER=';';
+const char FOOD_DISCOUNT_DELIMITER='|';
 
 const string OK="OK";
 const string GET="GET";
@@ -49,5 +51,7 @@ const string FOODS="foods";
 const string FOOD_NAME="food_name";
 const string START_TIME="start_time";
 const string END_TIME="end_time";
+
+const string NONE="none";
 
 #endif

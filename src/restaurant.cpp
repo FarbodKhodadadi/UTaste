@@ -4,6 +4,13 @@ Restaurant::Restaurant(string name_,string district_ ,map<string,int> menu_ ,int
             name(name_),distirct(district_) ,menu(menu_),start_time(start_time_) ,close_time(close_time_),
             num_of_tables(num_of_tables_ ){
             
+            firstorder_ptr=new FirstOrderDiscount();
+            totalprice_ptr = new TotalPriceDiscount();
+            
+            for(auto &dis:food_discount_ptr){
+                dis.second=new FoodDiscount();
+            }
+
             for(int i=1;i<num_of_tables+1;i++){
                 tables.push_back(i);
                 reservations.push_back(new Reservation());
