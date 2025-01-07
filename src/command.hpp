@@ -25,6 +25,7 @@ private:
     void signup(const vector<string>& command_line);
     void login(const vector<string>& command_line);
     void logout(const vector<string>& command_line);
+    void increseBudget(const vector<string>& command_line);
     void postReserve(const vector<string>& command_line);
     void deleteCommand(const vector<string>& command_line);
     void deleteReserve(const vector<string>& command_line );

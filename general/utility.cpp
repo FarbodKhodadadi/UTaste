@@ -45,7 +45,7 @@ map<string , string> Utility::commandArgs(const vector<string>& command){
     for(int i=0 ;i <command.size() ;i++){
         if(command[i]==USERNAME || command[i]==PASSWORD || command[i]==RESTAURANT_NAME 
         || command[i]==FOODS || command[i]==FOOD_NAME || command[i]==START_TIME
-        || command[i]==END_TIME  || command[i]==RESERVE_ID || command[i]==TABLE_ID || command[i]==DISTRICT){
+        || command[i]==END_TIME  || command[i]==RESERVE_ID || command[i]==TABLE_ID || command[i]==DISTRICT || command[i]==AMOUNT){
             if(i+1 >=command.size()){
                 throw BadReqException(BAD_REQ);
             }

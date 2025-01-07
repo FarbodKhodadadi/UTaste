@@ -32,15 +32,16 @@ void Restaurant::printRestaurant(){
         }else
             cout << endl;
     }
+    sort(reservations.begin(), reservations.end(), [](Reservation* a, Reservation* b) { return a->start_time < b->start_time; });
+    
     for(int i=1;i<num_of_tables+1;i++){
         cout<<i<<":";
         for (auto &it :reservations){
             if(it->table_num==i){
-                cout << " (" << it->start_time << "-" << it->end_time << ")";
-                if (next(find(reservations.begin(), reservations.end(), it)) != reservations.end())
-                    cout << ","; 
+            cout << " (" << it->start_time << "-" << it->end_time << ")"; 
             }
-           
+            if (it->table_num==i && next(find(reservations.begin(), reservations.end(), it)) != reservations.end())
+                cout << ",";
         }
         cout << endl;
     }

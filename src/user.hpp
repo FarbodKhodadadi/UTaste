@@ -16,8 +16,11 @@ public:
     District* user_district;
     vector<Reservation*> reserves;
     bool checkUserReserve(int start,int end);
-private:
+    void setWallet(const int amount);
+    int getWallet();
 
+private:
+int wallet;
 string username;
 string password;
 

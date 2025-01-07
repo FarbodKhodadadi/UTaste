@@ -39,6 +39,7 @@ const string RESTAURANTS_DETAILS="restaurant_detail";
 const string RESERVES="reserves";
 const string RESERVE="reserve";
 const string MY_DISTRICT="my_district";
+const string INCREASE_BUDGET ="increase_budget";
 
 
 const string DISTRICT="district";
@@ -51,6 +52,7 @@ const string FOODS="foods";
 const string FOOD_NAME="food_name";
 const string START_TIME="start_time";
 const string END_TIME="end_time";
+const string AMOUNT="amount";
 
 const string NONE="none";
 

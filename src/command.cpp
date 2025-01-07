@@ -31,6 +31,8 @@ void CommandHandle::postCommand(const vector<string> &command_line){
         logout(command_line);
     else if(action==RESERVE)
         postReserve(command_line);
+    else if(action==INCREASE_BUDGET)
+        increseBudget(command_line);
     else
         throw NotFoundException(NOT_FOUND);
 }
@@ -164,6 +166,19 @@ void CommandHandle::logout(const vector<string>& command_line){
     
     current_user->loged_in=false;
     current_user=nullptr;
+    OK();
+}
+
+void CommandHandle::increseBudget(const vector<string> &command_line){
+    if(command_line.size() < 5)
+            throw BadReqException(BAD_REQ);
+    if(current_user == nullptr)
+        throw PermisionException(PERMISSION_DENIED);
+    map<string,string> args=Utility::commandArgs(command_line);
+    if(args.find(AMOUNT)==args.end() || !all_of(args.find(AMOUNT)->second.begin(),args.find(AMOUNT)->second.end(), ::isdigit))
+        throw BadReqException(BAD_REQ);
+    int amount=stoi(args.find(AMOUNT)->second);
+    current_user->setWallet(amount);
     OK();
 }
 

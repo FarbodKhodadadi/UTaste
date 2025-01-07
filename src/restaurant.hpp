@@ -25,17 +25,13 @@ public:
     map<string,FoodDiscount*> food_discount_ptr;
 
 private:
-vector<int> tables;
-string name;
-int num_of_tables;
-int start_time;
-int close_time;
-map<string,int>  menu;
-string distirct;
-
-
-
-
+    vector<int> tables;
+    string name;
+    int num_of_tables;
+    int start_time;
+    int close_time;
+    map<string,int>  menu;
+    string distirct;
 };
 
 #endif
