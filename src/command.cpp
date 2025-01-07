@@ -208,7 +208,7 @@ void CommandHandle::getCommand(const vector<string> &command_line){
     else if(action==RESERVES)
         getReserves(command_line);
     else if(action == SHOW_BUDGET)
-
+        getBudget(command_line);
     else
         throw NotFoundException(NOT_FOUND);
 }
