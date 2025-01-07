@@ -15,6 +15,7 @@ public:
     bool checkMenu(map<string,int> order);
     bool checkTable(int table);
     bool checkWorkingTime(int start,int end);
+    string getDistrict();
     map<string,int> handlePrice(map<string,int> order);
     bool hasReserve(int res_id);
     string getName();
@@ -23,7 +24,7 @@ public:
     TotalPriceDiscount* totalprice_ptr;
     FirstOrderDiscount* firstorder_ptr;
     map<string,FoodDiscount*> food_discount_ptr;
-
+    map<string,int> getMenu();
 private:
     vector<int> tables;
     string name;

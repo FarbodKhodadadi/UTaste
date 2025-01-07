@@ -94,7 +94,13 @@ bool Restaurant::checkWorkingTime(int start, int end)
         return false;
     return true;
 }
-map<string, int> Restaurant::handlePrice(map<string, int> order){
+
+string Restaurant::getDistrict(){
+    return distirct;
+}
+
+map<string, int> Restaurant::handlePrice(map<string, int> order)
+{
     map<string,int> result;
     for(auto &it:order){
         result[it.first] = menu.find(it.first)->second;
@@ -112,3 +118,7 @@ bool Restaurant::hasReserve(int res_id){
     return false;
 }
 string Restaurant::getName() { return name; }
+
+map<string, int> Restaurant::getMenu(){
+    return menu;
+}

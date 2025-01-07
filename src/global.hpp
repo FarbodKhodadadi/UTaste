@@ -7,6 +7,9 @@
 #include <sstream>
 #include <fstream> 
 #include <algorithm>
+#include <queue>
+#include <set>
+
 
 #include "../exeption/generalException.hpp"
 

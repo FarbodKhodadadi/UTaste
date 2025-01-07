@@ -246,10 +246,79 @@ void CommandHandle::getRestaurant(const vector<string> &command_line){
             throw BadReqException(BAD_REQ);
     if(current_user == nullptr)
         throw PermisionException(PERMISSION_DENIED);
+    if(current_user->user_district==nullptr)
+        throw NotFoundException(NOT_FOUND);
 
     map<string,string> args=Utility::commandArgs(command_line);
+    for(auto &it : districts){
+        for(auto neighbour : it->neighbours){
+            auto idx = find_if(districts.begin(),districts.end(),[&neighbour](District* district){return district->getName()==neighbour;});
+            it->neighbours_object.push_back(*idx);
+        }
+    }
     if(args.find(FOOD_NAME) != args.end()){
+        string food = Utility::removeQuotation(args.find(FOOD_NAME)->second);
+
+        vector<Restaurant*> visited;
+        queue<District*> q;
+        set<District*> visited_districts;
+
+        q.push(current_user->user_district);
+        visited_districts.insert(current_user->user_district);
+
+        while (!q.empty()) {
+            District* current_district = q.front();
+            q.pop();
+
+            for (auto& restaurant : restaurants) {
+                auto menu =restaurant->getMenu();
+                if(menu.find(food) != menu.end()){
+                    if(restaurant->getDistrict() == current_district->getName()){
+                        if (find(visited.begin(), visited.end(), restaurant) == visited.end()) {
+                            visited.push_back(restaurant);
+                            cout << restaurant->getName() <<" "<<"("<<restaurant->getDistrict()<<")"<< endl;
+                        }
+                    }
+                }
+            }
+
+            for (auto& neighbor : current_district->neighbours_object) {
+                if (visited_districts.find(neighbor) == visited_districts.end()) {
+                    q.push(neighbor);
+                    visited_districts.insert(neighbor);
+                }
+            }
+        }
         
+
+    }else{
+        vector<Restaurant*> visited;
+        queue<District*> q;
+        set<District*> visited_districts;
+
+        q.push(current_user->user_district);
+        visited_districts.insert(current_user->user_district);
+
+        while (!q.empty()) {
+            District* current_district = q.front();
+            q.pop();
+
+            for (auto& restaurant : restaurants) {
+                if(restaurant->getDistrict() == current_district->getName()){
+                    if (find(visited.begin(), visited.end(), restaurant) == visited.end()) {
+                        visited.push_back(restaurant);
+                        cout << restaurant->getName() <<" "<<"("<<restaurant->getDistrict()<<")"<< endl;
+                    }
+                }
+            }
+
+            for (auto& neighbor : current_district->neighbours_object) {
+                if (visited_districts.find(neighbor) == visited_districts.end()) {
+                    q.push(neighbor);
+                    visited_districts.insert(neighbor);
+                }
+            }
+        }
     }
 }
 
