@@ -11,10 +11,7 @@ Restaurant::Restaurant(string name_,string district_ ,map<string,int> menu_ ,int
                 dis.second=new FoodDiscount();
             }
 
-            for(int i=1;i<num_of_tables+1;i++){
-                tables.push_back(i);
-                reservations.push_back(new Reservation());
-            }
+            reservations={};
 }
 
 void Restaurant::printRestaurant(){
@@ -36,19 +33,18 @@ void Restaurant::printRestaurant(){
     
     for(int i=1;i<num_of_tables+1;i++){
         cout<<i<<":";
-        for (auto &it :reservations){
-            if(it->table_num==i){
+        for (auto &it :reservations[i]){
             cout << " (" << it->start_time << "-" << it->end_time << ")"; 
-            }
-            if (it->table_num==i && next(find(reservations.begin(), reservations.end(), it)) != reservations.end())
+            if (next(find(reservations[i].begin(), reservations[i].end(), it)) != reservations[i].end())
                 cout << ",";
         }
-        cout << endl;
     }
+    cout << endl;
 }
-bool Restaurant::checkReserve(int table, int start, int end){
 
-    for(auto res:reservations){
+bool Restaurant::checkReserve(int table, int start, int end){
+    auto reserves=reservations.find(table)->second;
+    for(auto res:reserves){
         if(res->table_num == table){
             if(start < res->end_time && end > res->start_time){
                 return true;
@@ -88,9 +84,11 @@ map<string, int> Restaurant::handlePrice(map<string, int> order){
     return result;
 }
 bool Restaurant::hasReserve(int res_id){
-    for(auto it : reservations){
-        if(it->reserve_id==res_id){
-            return true;
+    for(auto it = reservations.begin();it!=reservations.end();it++){
+        for(auto reserve : it->second){
+            if(reserve->reserve_id==res_id){
+                return true;
+            }
         }
     }
     return false;

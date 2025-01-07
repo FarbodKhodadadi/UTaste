@@ -19,7 +19,7 @@ public:
     bool hasReserve(int res_id);
     string getName();
     int last_reserve_id=0;
-    vector<Reservation*> reservations;
+    map<int,vector<Reservation*>> reservations;
     TotalPriceDiscount* totalprice_ptr;
     FirstOrderDiscount* firstorder_ptr;
     map<string,FoodDiscount*> food_discount_ptr;

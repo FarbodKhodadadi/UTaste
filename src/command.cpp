@@ -74,7 +74,7 @@ void CommandHandle::postReserve(const vector<string>& command_line){
 
         auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,order,table_id,order_price);
 
-        res_ptr->reservations.push_back(reserve_class);
+        res_ptr->reservations[table_id].push_back(reserve_class);
         current_user->reserves.push_back(reserve_class);
         reserve_class->printReserve();
         reserve_class=nullptr;
@@ -97,7 +97,7 @@ void CommandHandle::postReserve(const vector<string>& command_line){
 
         auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,table_id);
 
-        res_ptr->reservations.push_back(reserve_class);
+        res_ptr->reservations[table_id].push_back(reserve_class);
         current_user->reserves.push_back(reserve_class);
         reserve_class->printReserve();
 
@@ -384,11 +384,13 @@ void CommandHandle::deleteReserve(const vector<string> &command_line ){
             current_user->reserves.erase(current_user->reserves.begin()+i);
         }
     }
-    for(int i=0;i<restaurant_ptr->reservations.size();i++){
-        if(restaurant_ptr->reservations[i]->reserve_id==reserve_id){
-            restaurant_ptr->reservations.erase(restaurant_ptr->reservations.begin()+i);
-            OK();
-            return;
+    for(auto it=restaurant_ptr->reservations.begin();it != restaurant_ptr->reservations.end();it++){
+        for(int i=0;i<it->second.size();i++){
+            if(it->second[i]->reserve_id==reserve_id){
+                it->second.erase(i+it->second.begin());
+                OK();
+                return;
+            }
         }
     }
 }
