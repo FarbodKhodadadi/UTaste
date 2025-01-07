@@ -33,6 +33,7 @@ private:
     void getDistrict(const vector<string>& command_line);
     void getRestaurant(const vector<string>& command_line);
     void getRestaurantDetails(const vector<string>& command_line);
+    void getBudget(const vector<string>& command_line);
     void getReserves(const vector<string>& command_line);
     static void OK();
 

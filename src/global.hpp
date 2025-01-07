@@ -40,6 +40,7 @@ const string RESERVES="reserves";
 const string RESERVE="reserve";
 const string MY_DISTRICT="my_district";
 const string INCREASE_BUDGET ="increase_budget";
+const string SHOW_BUDGET="show_budget";
 
 
 const string DISTRICT="district";

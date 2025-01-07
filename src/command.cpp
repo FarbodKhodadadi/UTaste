@@ -178,6 +178,8 @@ void CommandHandle::increseBudget(const vector<string> &command_line){
     if(args.find(AMOUNT)==args.end() || !all_of(args.find(AMOUNT)->second.begin(),args.find(AMOUNT)->second.end(), ::isdigit))
         throw BadReqException(BAD_REQ);
     int amount=stoi(args.find(AMOUNT)->second);
+    if(amount<0)
+        throw BadReqException(BAD_REQ);
     current_user->setWallet(amount);
     OK();
 }
@@ -205,6 +207,8 @@ void CommandHandle::getCommand(const vector<string> &command_line){
         getRestaurantDetails(command_line);
     else if(action==RESERVES)
         getReserves(command_line);
+    else if(action == SHOW_BUDGET)
+
     else
         throw NotFoundException(NOT_FOUND);
 }
@@ -265,6 +269,14 @@ void CommandHandle::getRestaurantDetails(const vector<string> &command_line){
         res_ptr->printRestaurant();
     }else
         throw BadReqException(BAD_REQ);
+}
+
+void CommandHandle::getBudget(const vector<string> &command_line){
+    if(command_line.size() < 3)
+            throw BadReqException(BAD_REQ);
+    if(current_user == nullptr)
+        throw PermisionException(PERMISSION_DENIED);
+    cout<<current_user->getWallet()<<endl;
 }
 
 Restaurant* CommandHandle::findRestaurant(const string name){
