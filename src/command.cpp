@@ -90,11 +90,13 @@ void CommandHandle::postReserve(const vector<string>& command_line){
         if(res_ptr==nullptr)
             throw NotFoundException(NOT_FOUND);
         if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || res_ptr->checkReserve(table_id,start_time,end_time) 
-            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || !res_ptr->checkTable(table_id)){
+            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time)){
             throw PermisionException(PERMISSION_DENIED);
         }
+        if( !res_ptr->checkTable(table_id))
+            throw NotFoundException(NOT_FOUND);
+        
         int reserve_id=res_ptr->last_reserve_id +=1;
-
         auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,table_id);
 
         res_ptr->reservations[table_id].push_back(reserve_class);
@@ -387,7 +389,7 @@ void CommandHandle::deleteReserve(const vector<string> &command_line ){
     for(auto it=restaurant_ptr->reservations.begin();it != restaurant_ptr->reservations.end();it++){
         for(int i=0;i<it->second.size();i++){
             if(it->second[i]->reserve_id==reserve_id){
-                it->second.erase(i+it->second.begin());
+                it->second.erase(it->second.begin() + i);
                 OK();
                 return;
             }

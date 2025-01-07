@@ -29,21 +29,23 @@ void Restaurant::printRestaurant(){
         }else
             cout << endl;
     }
-    sort(reservations.begin(), reservations.end(), [](Reservation* a, Reservation* b) { return a->start_time < b->start_time; });
+    
     
     for(int i=1;i<num_of_tables+1;i++){
+        sort(reservations[i].begin(), reservations[i].end(), [](Reservation* a, Reservation* b) { return a->start_time < b->start_time; });
         cout<<i<<":";
         for (auto &it :reservations[i]){
             cout << " (" << it->start_time << "-" << it->end_time << ")"; 
             if (next(find(reservations[i].begin(), reservations[i].end(), it)) != reservations[i].end())
                 cout << ",";
         }
+        cout << endl;
     }
-    cout << endl;
+    
 }
 
 bool Restaurant::checkReserve(int table, int start, int end){
-    auto reserves=reservations.find(table)->second;
+    auto reserves=reservations[table];
     for(auto res:reserves){
         if(res->table_num == table){
             if(start < res->end_time && end > res->start_time){
@@ -66,7 +68,7 @@ bool Restaurant::checkMenu(map<string, int> order)
 
 bool Restaurant::checkTable(int table){
     if(table<1 || table>num_of_tables){
-        throw NotFoundException(NOT_FOUND);
+        return false;
     }
     return true;
 }
