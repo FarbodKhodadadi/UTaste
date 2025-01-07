@@ -326,6 +326,7 @@ void CommandHandle::getReserves(const vector<string> &command_line){
                     for(auto &order : it->orders){
                         cout <<" "<<order.first<<"("<<order.second<<")";
                     }
+                    cout << " " <<it->original_price <<" "<<it->price_after_discount;
                     cout <<endl;
                 }
             }
@@ -339,6 +340,7 @@ void CommandHandle::getReserves(const vector<string> &command_line){
             for(auto &order : res->orders){
                 cout <<" "<<order.first<<"("<<order.second<<")";
             }
+            cout << " " <<res->original_price <<" "<<res->price_after_discount;
             cout <<endl;
         }
     }
@@ -381,6 +383,7 @@ void CommandHandle::deleteReserve(const vector<string> &command_line ){
 
     for(int i=0;i<current_user->reserves.size();i++){
         if(current_user->reserves[i]->reserve_id==reserve_id){
+            current_user->setWallet((current_user->reserves[i]->price_after_discount) * CANCEL_FEE/100);
             delete current_user->reserves[i];
             current_user->reserves.erase(current_user->reserves.begin()+i);
         }
