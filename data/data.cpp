@@ -55,6 +55,9 @@ TotalPriceDiscount* CsvData::handleTotalPriceDis(const string restaurant,const s
     if(type==NONE){
         return new TotalPriceDiscount(restaurant,type,0,0);
     }
+    if(type==PERCENT){
+        type = PERCENTAGE;
+    }
     int minimum=stoi(args[1]);
     int value=stoi(args[2]);
     
@@ -66,6 +69,9 @@ FirstOrderDiscount* CsvData::handleFirstOrderDis(const string restaurant,const s
     string type=args[0];
     if(type==NONE){
         return new FirstOrderDiscount(restaurant,type,0);
+    }
+    if(type==PERCENT){
+        type = PERCENTAGE;
     }
     int value=stoi(args[1]);
     
@@ -84,6 +90,9 @@ map<string,FoodDiscount*> CsvData::handleFoodDiscount(const string restaurant, c
         int value=stoi(food_discount[1]);
         if(type==NONE){
             result[food_name]=new FoodDiscount(restaurant,food,type,0);
+        }
+        if(type==PERCENT){
+            type = PERCENTAGE;
         }
         result[food_name]=new FoodDiscount(restaurant,food,type,value);
     }

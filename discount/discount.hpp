@@ -7,13 +7,11 @@ class Discount{
 public:
     Discount();
     Discount(string type_,int value_,string restaurant_);
+    string type = NONE;
+    string getName();
+    int value = 0;
 private:
-string getName();
-
-string restaurant;
-string type = NONE;
-int value = 0;
-
+    string restaurant;
 };
 
 

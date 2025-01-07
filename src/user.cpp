@@ -29,8 +29,21 @@ bool User::checkUserReserve(int start, int end){
 
 }
 
+bool User::checkFirstOrder(const string restaurant_name){
+    for(auto it:reserves){
+        if(it->restaurant==restaurant_name){
+            return false;
+        }
+    }
+    return true;
+}
+
 void User::setWallet(const int amount){
     wallet=wallet+amount;
+}
+
+void User::pay(const int amount){
+    wallet=wallet-amount;
 }
 
 int User::getWallet(){

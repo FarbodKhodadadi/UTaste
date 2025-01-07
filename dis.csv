@@ -1,0 +1,2 @@
+restaurant_name,total_price_discount,first_order_discount,food_discount
+sib,percent;800;7,none,amount;burger:20|percent;hotdog:50

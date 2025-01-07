@@ -47,7 +47,6 @@ void CommandHandle::postReserve(const vector<string>& command_line){
     if(args.find(RESTAURANT_NAME) == args.end() || args.find(TABLE_ID)==args.end() ||
         args.find(START_TIME)==args.end() || args.find(END_TIME)==args.end())
         throw BadReqException(BAD_REQ);
-
     if(args.find(FOODS)!=args.end()){
         string restaurant_name = Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
         
@@ -72,11 +71,11 @@ void CommandHandle::postReserve(const vector<string>& command_line){
         }
         int reserve_id=res_ptr->last_reserve_id +=1;
 
-        auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,order,table_id,order_price);
+        auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,order,table_id,order_price,current_user,res_ptr);
 
         res_ptr->reservations[table_id].push_back(reserve_class);
         current_user->reserves.push_back(reserve_class);
-        reserve_class->printReserve();
+        reserve_class->printReserve(current_user);
         reserve_class=nullptr;
         return;
     }else{
@@ -97,11 +96,11 @@ void CommandHandle::postReserve(const vector<string>& command_line){
             throw NotFoundException(NOT_FOUND);
         
         int reserve_id=res_ptr->last_reserve_id +=1;
-        auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,table_id);
+        auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,table_id,current_user,res_ptr);
 
         res_ptr->reservations[table_id].push_back(reserve_class);
         current_user->reserves.push_back(reserve_class);
-        reserve_class->printReserve();
+        reserve_class->printReserve(current_user);
 
         reserve_class=nullptr;
         return;

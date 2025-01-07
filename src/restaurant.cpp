@@ -41,7 +41,23 @@ void Restaurant::printRestaurant(){
         }
         cout << endl;
     }
-    
+    if(totalprice_ptr->type != NONE){
+        cout << "Order Amount Discount: "<<totalprice_ptr->type <<", "<<totalprice_ptr->minimum << ", "<<totalprice_ptr->value<<endl;
+    }
+    if(!food_discount_ptr.empty()){
+        cout <<"Item Specific Discount:";
+        for(auto item :food_discount_ptr){
+            if(item.second->type!=NONE){
+                cout <<" "<<item.first<<"("<<item.second->type<<": "<<item.second->value<<")";
+                if(next(find(food_discount_ptr.begin(),food_discount_ptr.end(),item))!=food_discount_ptr.end())
+                    cout <<",";
+            }
+        }
+        cout << endl;
+    }
+    if(firstorder_ptr->type!=NONE){
+        cout <<"First Order Discount: "<<firstorder_ptr->type <<", "<<firstorder_ptr->value<<endl;
+    }
 }
 
 bool Restaurant::checkReserve(int table, int start, int end){

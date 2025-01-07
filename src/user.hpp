@@ -16,7 +16,9 @@ public:
     District* user_district;
     vector<Reservation*> reserves;
     bool checkUserReserve(int start,int end);
+    bool checkFirstOrder(const string restaurant_name);
     void setWallet(const int amount);
+    void pay(const int amount);
     int getWallet();
 
 private:

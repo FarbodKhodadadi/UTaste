@@ -54,6 +54,8 @@ const string FOOD_NAME="food_name";
 const string START_TIME="start_time";
 const string END_TIME="end_time";
 const string AMOUNT="amount";
+const string PERCENT="percent";
+const string PERCENTAGE ="percentage";
 
 const string NONE="none";
 
