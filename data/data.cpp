@@ -79,24 +79,30 @@ FirstOrderDiscount* CsvData::handleFirstOrderDis(const string restaurant,const s
 
 }
 map<string,FoodDiscount*> CsvData::handleFoodDiscount(const string restaurant, const string input){
-
-    vector<string> foods =Utility::split(input ,FOOD_DISCOUNT_DELIMITER);
+    
     map<string,FoodDiscount*> result;
-    for(auto &food : foods){
-        vector<string> args =Utility::split(food ,SEMICOLON_DELIMITER);
-        string type =args[0];
-        vector<string> food_discount =Utility::split(args[1],PRICE_DELIMITER);
-        string food_name=food_discount[0];
-        int value=stoi(food_discount[1]);
-        if(type==NONE){
-            result[food_name]=new FoodDiscount(restaurant,food,type,0);
-        }
-        if(type==PERCENT){
-            type = PERCENTAGE;
-        }
-        result[food_name]=new FoodDiscount(restaurant,food,type,value);
+    if(input==NONE){
+        return result;
     }
-    return result;
+    else{
+        vector<string> foods =Utility::split(input ,FOOD_DISCOUNT_DELIMITER);
+        
+        for(auto &food : foods){
+            vector<string> args =Utility::split(food ,SEMICOLON_DELIMITER);
+            string type =args[0];
+            vector<string> food_discount =Utility::split(args[1],PRICE_DELIMITER);
+            string food_name=food_discount[0];
+            int value=stoi(food_discount[1]);
+            if(type==NONE){
+                result[food_name]=new FoodDiscount(restaurant,food,type,0);
+            }
+            if(type==PERCENT){
+                type = PERCENTAGE;
+            }
+            result[food_name]=new FoodDiscount(restaurant,food,type,value);
+        }
+        return result;
+    }
     
 }
 void CsvData::loadDiscounts(const char *discounts_path, vector<Restaurant *> restaurants)

@@ -12,7 +12,7 @@ int main(int argc ,char* argv[]){
     vector<User*> users;
     CommandHandle cmd(restaurants,districts,users);
     string input;
-
+    
     while(getline(cin,input)){
         try{
                 cmd.commandProcess(input);
