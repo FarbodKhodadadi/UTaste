@@ -1,14 +1,24 @@
 #include "utility.hpp"
 
-vector<string> Utility::split(const string& input , char delimiter){
-
+vector<string> Utility::split(const string& input, char delimiter) {
     vector<string> result;
-    stringstream s(input);
     string token;
+    bool insideQuotes = false;
+    stringstream s;
 
-    while(getline(s , token ,delimiter)){
-        result.push_back(token);
+    for (char ch : input) {
+        if (ch == '"') {
+            insideQuotes = !insideQuotes;
+            s << ch; // Keep the quotation marks
+        } else if (ch == delimiter && !insideQuotes) {
+            result.push_back(s.str());
+            s.str("");
+            s.clear();
+        } else {
+            s << ch;
+        }
     }
+    result.push_back(s.str());
     return result;
 }
 map<string,int> Utility::orderHandle(const string &input){

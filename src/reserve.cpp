@@ -9,10 +9,10 @@ Reservation::Reservation(int reserve_id_, int start, int end, string restaurant_
                         restaurant(restaurant_), table_num(table_num_) {
                             orders={};
                             order_price={};
-                            original_price=calPrice();
-                            order_amount_discount=foodOrderDiscount(current_user, res_ptr);
-                            first_order_discount=firstOrderDiscount(current_user, res_ptr);
-                            total_item_discount=totalItemDiscount(current_user, res_ptr);
+                            original_price=0;
+                            order_amount_discount=0;
+                            first_order_discount=0;;
+                            total_item_discount=0;
                             if(original_price-first_order_discount-order_amount_discount-total_item_discount >=0){
                                 price_after_discount= original_price-first_order_discount-order_amount_discount-total_item_discount;
                             }else{
@@ -37,7 +37,7 @@ Reservation::Reservation(int reserve_id_, int start, int end, string restaurant_
                             }
                         }
 
-void Reservation::printReserve(User* current_user){
+void Reservation::printReserve(User* current_user,Restaurant* res_ptr){
     if(current_user->getWallet() >= price_after_discount){
         cout << "Reserve ID: " << reserve_id <<endl;
         cout << "Table " << table_num << " for " << start_time <<" to "<< end_time << " in " << restaurant <<endl;
@@ -45,9 +45,11 @@ void Reservation::printReserve(User* current_user){
         cout << "Order Amount Discount: "<< total_item_discount<<endl;
         cout << "Total ItemSpecific Discount: "<< order_amount_discount<<endl;
         cout << "First Order Discount: "<<first_order_discount<<endl;
+        cout << "Total Discount: "<<total_item_discount+order_amount_discount+first_order_discount<<endl;
         cout << "Total Price: "<<price_after_discount<<endl;
         current_user->pay(price_after_discount);
     }else{
+        res_ptr->last_reserve_id --;
         throw BadReqException(BAD_REQ);
     }
 }
@@ -72,7 +74,7 @@ int Reservation::foodOrderDiscount(User* current_user,Restaurant* res_ptr){
                 result += price*(res_ptr->food_discount_ptr.find(food.first)->second->value)/100;
             }
             else{
-                result += res_ptr->food_discount_ptr.find(food.first)->second->value;
+                result += res_ptr->food_discount_ptr.find(food.first)->second->value * food.second;
             }
         }
     }

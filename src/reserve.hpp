@@ -10,7 +10,7 @@ public:
     Reservation();
     Reservation(int reserve_id_, int start ,int end,string restaurant_ ,int table_num_,User* current_user,Restaurant* res_ptr);
     Reservation(int reserve_id_, int start ,int end,string restaurant_ ,map<string,int> orders_,int table_num_,map<string,int> order_price_,User* current_user,Restaurant* res_ptr);
-    void printReserve(User* current_user);
+    void printReserve(User* current_user,Restaurant* res_ptr);
     int calPrice();
     int foodOrderDiscount(User* current_user,Restaurant* res_ptr);
     int firstOrderDiscount(User* current_user,Restaurant* res_ptr);

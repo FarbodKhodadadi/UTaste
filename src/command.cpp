@@ -15,8 +15,6 @@ void CommandHandle::commandProcess(const string& input){
         deleteCommand(tokens);
     else if(command ==POST)
         postCommand(tokens);
-    else if(command == "show")
-        showUsers(tokens);
     else
         throw BadReqException(BAD_REQ);
 }
@@ -62,9 +60,11 @@ void CommandHandle::postReserve(const vector<string>& command_line){
         auto order_price=res_ptr->handlePrice(order);
 
         if(start_time<0 || start_time>24 || end_time<0 || end_time>24 || res_ptr->checkReserve(table_id,start_time,end_time) 
-            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time) || !res_ptr->checkTable(table_id)){
+            || !current_user->checkUserReserve(start_time,end_time) || !res_ptr->checkWorkingTime(start_time,end_time)){
             throw PermisionException(PERMISSION_DENIED);
         }
+        if(!res_ptr->checkTable(table_id))
+         throw NotFoundException(NOT_FOUND);
 
         if(!res_ptr->checkMenu(order)){
             throw NotFoundException(NOT_FOUND);
@@ -73,9 +73,11 @@ void CommandHandle::postReserve(const vector<string>& command_line){
 
         auto reserve_class=new Reservation(reserve_id,start_time,end_time,restaurant_name,order,table_id,order_price,current_user,res_ptr);
 
+        reserve_class->printReserve(current_user,res_ptr);
+
         res_ptr->reservations[table_id].push_back(reserve_class);
         current_user->reserves.push_back(reserve_class);
-        reserve_class->printReserve(current_user);
+        
         reserve_class=nullptr;
         return;
     }else{
@@ -100,7 +102,7 @@ void CommandHandle::postReserve(const vector<string>& command_line){
 
         res_ptr->reservations[table_id].push_back(reserve_class);
         current_user->reserves.push_back(reserve_class);
-        reserve_class->printReserve(current_user);
+        reserve_class->printReserve(current_user,res_ptr);
 
         reserve_class=nullptr;
         return;
@@ -139,9 +141,10 @@ void CommandHandle::login(const vector<string>& command_line){
     map<string,string> args=Utility::commandArgs(command_line);
     if(args.find(USERNAME) == args.end() || args.find(PASSWORD)==args.end())
         throw BadReqException(BAD_REQ);
+
     string input_username = Utility::removeQuotation(args.find(USERNAME)->second);
     string input_password = Utility::removeQuotation(args.find(PASSWORD)->second);
-
+    
     auto user = findUser(input_username);
     if(user==nullptr)
         throw NotFoundException(NOT_FOUND);
@@ -269,16 +272,27 @@ void CommandHandle::getRestaurant(const vector<string> &command_line){
         while (!q.empty()) {
             District* current_district = q.front();
             q.pop();
-
+            bool food_exists=false;
+            vector<Restaurant*> district_restaurants;
             for (auto& restaurant : restaurants) {
-                auto menu =restaurant->getMenu();
-                if(menu.find(food) != menu.end()){
-                    if(restaurant->getDistrict() == current_district->getName()){
-                        if (find(visited.begin(), visited.end(), restaurant) == visited.end()) {
-                            visited.push_back(restaurant);
-                            cout << restaurant->getName() <<" "<<"("<<restaurant->getDistrict()<<")"<< endl;
-                        }
+                auto menu = restaurant->getMenu();
+                if (menu.find(food) != menu.end()){
+                    if(restaurant->getDistrict() == current_district->getName()) {
+                        district_restaurants.push_back(restaurant);
                     }
+                    food_exists=true;
+                }
+            }
+            if(!food_exists)
+                throw EmptyException(EMPTY);
+
+            sort(district_restaurants.begin(), district_restaurants.end(), [](Restaurant* a, Restaurant* b) {
+                return a->getName() < b->getName();
+            });
+            for (auto& restaurant : district_restaurants) {
+                if (find(visited.begin(), visited.end(), restaurant) == visited.end()) {
+                    visited.push_back(restaurant);
+                    cout << restaurant->getName() << " " << "(" << restaurant->getDistrict() << ")" << endl;
                 }
             }
 
@@ -303,12 +317,19 @@ void CommandHandle::getRestaurant(const vector<string> &command_line){
             District* current_district = q.front();
             q.pop();
 
+            vector<Restaurant*> district_restaurants;
             for (auto& restaurant : restaurants) {
-                if(restaurant->getDistrict() == current_district->getName()){
-                    if (find(visited.begin(), visited.end(), restaurant) == visited.end()) {
-                        visited.push_back(restaurant);
-                        cout << restaurant->getName() <<" "<<"("<<restaurant->getDistrict()<<")"<< endl;
-                    }
+                if (restaurant->getDistrict() == current_district->getName()) {
+                    district_restaurants.push_back(restaurant);
+                }
+            }
+            sort(district_restaurants.begin(), district_restaurants.end(), [](Restaurant* a, Restaurant* b) {
+                return a->getName() < b->getName();
+            });
+            for (auto& restaurant : district_restaurants) {
+                if (find(visited.begin(), visited.end(), restaurant) == visited.end()) {
+                    visited.push_back(restaurant);
+                    cout << restaurant->getName() << " " << "(" << restaurant->getDistrict() << ")" << endl;
                 }
             }
 
@@ -330,7 +351,6 @@ void CommandHandle::getRestaurantDetails(const vector<string> &command_line){
     map<string,string> args=Utility::commandArgs(command_line);
 
     if(args.find(RESTAURANT_NAME) != args.end()){
-
         string restaurant = Utility::removeQuotation(args.find(RESTAURANT_NAME)->second);
 
         auto res_ptr =findRestaurant(restaurant);
@@ -373,7 +393,7 @@ void CommandHandle::getReserves(const vector<string> &command_line){
             int reserve_id=stoi(Utility::removeQuotation(args.find(RESERVE_ID)->second));
             auto restaurant_ptr = findRestaurant(restaurant);
 
-            if(restaurant_ptr==nullptr)
+            if(restaurant_ptr==nullptr || !restaurant_ptr->hasReserve(reserve_id))
                 throw NotFoundException(NOT_FOUND);
             else if(restaurant_ptr->hasReserve(reserve_id) && !current_user->hasReserve(restaurant,reserve_id))
                 throw PermisionException(PERMISSION_DENIED);
@@ -384,7 +404,7 @@ void CommandHandle::getReserves(const vector<string> &command_line){
                     for(auto &order : it->orders){
                         cout <<" "<<order.first<<"("<<order.second<<")";
                     }
-                    cout <<endl;
+                    cout <<" "<<it->original_price << " "<< it->price_after_discount<<endl;
                     return;
                 }
             }
@@ -404,7 +424,9 @@ void CommandHandle::getReserves(const vector<string> &command_line){
        if(args.find(RESERVE_ID) != args.end()){
         throw BadReqException(BAD_REQ);
        }
-        for(auto &res : current_user->reserves){
+        auto temp=current_user->reserves;
+        sort(temp.begin(),temp.end(),[](Reservation* a,Reservation* b){return a->start_time < b->start_time;});
+        for(auto &res : temp){
             cout << res->reserve_id <<": " << res->restaurant << " "<< res->table_num << " " <<res->start_time <<"-"<<res->end_time;
             for(auto &order : res->orders){
                 cout <<" "<<order.first<<"("<<order.second<<")";
@@ -451,8 +473,9 @@ void CommandHandle::deleteReserve(const vector<string> &command_line ){
         throw PermisionException(PERMISSION_DENIED);
 
     for(int i=0;i<current_user->reserves.size();i++){
-        if(current_user->reserves[i]->reserve_id==reserve_id){
-            current_user->setWallet((current_user->reserves[i]->price_after_discount) * CANCEL_FEE/100);
+        if(current_user->reserves[i]->reserve_id==reserve_id && current_user->reserves[i]->restaurant == restaurant){
+            int payback =current_user->reserves[i]->price_after_discount * CANCEL_FEE/100;
+            current_user->setWallet(payback);
             delete current_user->reserves[i];
             current_user->reserves.erase(current_user->reserves.begin()+i);
         }
